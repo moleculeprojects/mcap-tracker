@@ -6,7 +6,7 @@ const axios = require('axios');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const DB_PATH = path.join(__dirname, 'tokens.db');
+const DB_PATH = process.env.DATABASE_PATH || path.join(__dirname, 'tokens.db');
 
 // Middleware
 app.use(express.json());
