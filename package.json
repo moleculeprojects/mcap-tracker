@@ -4,8 +4,13 @@
   "description": "MCAP Tracker Server - Tracks token market caps and calculates profit/loss percentages",
   "main": "server.js",
   "scripts": {
+    "build": "echo 'No build step required'",
     "start": "node server.js",
     "dev": "nodemon server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "keywords": [
     "crypto",
