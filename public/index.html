@@ -120,14 +120,37 @@
             font-size: 14px;
         }
 
+        .mcap-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .mcap-change {
+            font-size: 11px;
+            font-weight: 600;
+            align-self: flex-end;
+            border-radius: 4px;
+            padding: 1px 6px;
+        }
+
+        .mcap-change.up {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.12);
+        }
+
+        .mcap-change.down {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.12);
+        }
+
         .narrative {
             color: #aaa;
             font-size: 12px;
-            max-width: 250px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            cursor: help;
+            min-width: 250px;
+            white-space: normal;
+            word-wrap: break-word;
         }
 
         .loading {
@@ -262,16 +285,24 @@
                         const row = document.createElement('tr');
                         const percentClass = token.percentChange >= 0 ? 'positive' : 'negative';
 
-                        const narrativeShort = token.narrative ? (token.narrative.length > 80 ? token.narrative.substring(0, 77) + '...' : token.narrative) : 'N/A';
-                        const narrativeFull = token.narrative || 'N/A';
+                        const narrativeText = token.narrative || 'N/A';
+
+                        // Calculate current vs captured change
+                        let mcapChangeHtml = '';
+                        if (token.currentMcap && token.capturedMcap && token.capturedMcap > 0) {
+                            const mcapDelta = ((token.currentMcap - token.capturedMcap) / token.capturedMcap * 100);
+                            const mcapSign = mcapDelta >= 0 ? '+' : '';
+                            const mcapClass = mcapDelta >= 0 ? 'up' : 'down';
+                            mcapChangeHtml = `<span class="mcap-change ${mcapClass}">${mcapSign}${mcapDelta.toFixed(1)}%</span>`;
+                        }
 
                         row.innerHTML = `
                             <td class="token-name">${token.name}</td>
                             <td class="mcap">${formatCurrency(token.capturedMcap)}</td>
-                            <td class="mcap">${formatCurrency(token.currentMcap)}</td>
+                            <td class="mcap"><div class="mcap-cell">${formatCurrency(token.currentMcap)}${mcapChangeHtml}</div></td>
                             <td class="mcap">${formatCurrency(token.highestMcap)}</td>
                             <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
-                            <td class="narrative" title="${narrativeFull.replace(/"/g, '&quot;')}">${narrativeShort}</td>
+                            <td class="narrative">${narrativeText}</td>
                             <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
                         `;
                         tbody.appendChild(row);
