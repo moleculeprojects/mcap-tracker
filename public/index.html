@@ -120,6 +120,16 @@
             font-size: 14px;
         }
 
+        .narrative {
+            color: #aaa;
+            font-size: 12px;
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            cursor: help;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -183,6 +193,7 @@
                         <th>Current MCAP</th>
                         <th>Highest MCAP</th>
                         <th>Change</th>
+                        <th>Narrative</th>
                         <th>Link</th>
                     </tr>
                 </thead>
@@ -245,11 +256,14 @@
                 tbody.innerHTML = '';
 
                 if (tokens.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
                 } else {
                     tokens.forEach(token => {
                         const row = document.createElement('tr');
                         const percentClass = token.percentChange >= 0 ? 'positive' : 'negative';
+
+                        const narrativeShort = token.narrative ? (token.narrative.length > 80 ? token.narrative.substring(0, 77) + '...' : token.narrative) : 'N/A';
+                        const narrativeFull = token.narrative || 'N/A';
 
                         row.innerHTML = `
                             <td class="token-name">${token.name}</td>
@@ -257,6 +271,7 @@
                             <td class="mcap">${formatCurrency(token.currentMcap)}</td>
                             <td class="mcap">${formatCurrency(token.highestMcap)}</td>
                             <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
+                            <td class="narrative" title="${narrativeFull.replace(/"/g, '&quot;')}">${narrativeShort}</td>
                             <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
                         `;
                         tbody.appendChild(row);
