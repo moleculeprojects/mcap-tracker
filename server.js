@@ -97,19 +97,14 @@ async function fetchMarketCapFromDexScreener(address) {
     if (!address) return null;
 
     try {
-        const url = `https://api.dexscreener.com/latest/dex/tokens/${address}`;
+        // Use pairs endpoint since the address from DexScreener URLs is a pair address
+        const url = `https://api.dexscreener.com/latest/dex/pairs/solana/${address}`;
         const response = await axios.get(url, { timeout: 10000 });
 
-        if (response.data && response.data.pairs && response.data.pairs.length > 0) {
-            // Find the pair with highest liquidity or first pair
-            const pairs = response.data.pairs;
-            const bestPair = pairs.reduce((best, current) => {
-                const bestLiq = parseFloat(best.liquidity?.usd || 0);
-                const currentLiq = parseFloat(current.liquidity?.usd || 0);
-                return currentLiq > bestLiq ? current : best;
-            }, pairs[0]);
-
-            const mcap = parseFloat(bestPair.fdv || bestPair.marketCap || 0);
+        // The pairs endpoint returns a single pair object (or array)
+        const pair = response.data?.pair || (response.data?.pairs && response.data.pairs[0]);
+        if (pair) {
+            const mcap = parseFloat(pair.fdv || pair.marketCap || 0);
             return mcap > 0 ? mcap : null;
         }
     } catch (error) {
