@@ -1,0 +1,7 @@
+node_modules/
+tokens.db
+tokens.db-journal
+.env
+*.log
+.DS_Store
+

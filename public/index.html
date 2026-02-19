@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCAP Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1a1f3a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #2a2f4a;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .tokens-table {
+            background: #1a1f3a;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #2a2f4a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #2a2f4a;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4CAF50;
+            border-bottom: 2px solid #3a3f5a;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #2a2f4a;
+        }
+
+        tr:hover {
+            background: #252a45;
+        }
+
+        .token-name {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .token-link {
+            color: #64B5F6;
+            text-decoration: none;
+        }
+
+        .token-link:hover {
+            text-decoration: underline;
+        }
+
+        .percent {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .percent.positive {
+            color: #4CAF50;
+        }
+
+        .percent.negative {
+            color: #f44336;
+        }
+
+        .mcap {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .error {
+            background: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 MCAP Tracker</h1>
+
+        <div id="error-container"></div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Tokens</div>
+                <div class="stat-value" id="total-tokens">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Avg Change</div>
+                <div class="stat-value" id="avg-change">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Best Performer</div>
+                <div class="stat-value" id="best-performer">-</div>
+            </div>
+        </div>
+
+        <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
+
+        <div class="tokens-table">
+            <div id="loading" class="loading">Loading tokens...</div>
+            <table id="tokens-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Captured MCAP</th>
+                        <th>Current MCAP</th>
+                        <th>Highest MCAP</th>
+                        <th>Change</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody id="tokens-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function formatCurrency(value) {
+            if (!value) return 'N/A';
+            if (value >= 1000000) return '$' + (value / 1000000).toFixed(2) + 'M';
+            if (value >= 1000) return '$' + (value / 1000).toFixed(2) + 'K';
+            return '$' + value.toFixed(2);
+        }
+
+        function formatPercent(value) {
+            if (value === null || value === undefined) return 'N/A';
+            const sign = value >= 0 ? '+' : '';
+            return sign + value.toFixed(2) + '%';
+        }
+
+        async function loadTokens() {
+            const loading = document.getElementById('loading');
+            const table = document.getElementById('tokens-table');
+            const errorContainer = document.getElementById('error-container');
+
+            loading.style.display = 'block';
+            table.style.display = 'none';
+            errorContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/tokens');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const tokens = data.tokens || [];
+
+                // Update stats
+                document.getElementById('total-tokens').textContent = tokens.length;
+
+                if (tokens.length > 0) {
+                    const changes = tokens.map(t => t.percentChange).filter(c => c !== null);
+                    const avgChange = changes.length > 0
+                        ? (changes.reduce((a, b) => a + b, 0) / changes.length).toFixed(2) + '%'
+                        : 'N/A';
+                    document.getElementById('avg-change').textContent = avgChange;
+
+                    const bestToken = tokens.reduce((best, current) =>
+                        (current.percentChange || 0) > (best.percentChange || 0) ? current : best
+                    );
+                    document.getElementById('best-performer').textContent =
+                        bestToken.name + ' ' + formatPercent(bestToken.percentChange);
+                }
+
+                // Render table
+                const tbody = document.getElementById('tokens-body');
+                tbody.innerHTML = '';
+
+                if (tokens.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
+                } else {
+                    tokens.forEach(token => {
+                        const row = document.createElement('tr');
+                        const percentClass = token.percentChange >= 0 ? 'positive' : 'negative';
+
+                        row.innerHTML = `
+                            <td class="token-name">${token.name}</td>
+                            <td class="mcap">${formatCurrency(token.capturedMcap)}</td>
+                            <td class="mcap">${formatCurrency(token.currentMcap)}</td>
+                            <td class="mcap">${formatCurrency(token.highestMcap)}</td>
+                            <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
+                            <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+
+                loading.style.display = 'none';
+                table.style.display = 'table';
+
+            } catch (error) {
+                loading.style.display = 'none';
+                errorContainer.innerHTML = `<div class="error">Error loading tokens: ${error.message}</div>`;
+            }
+        }
+
+        // Load tokens on page load
+        loadTokens();
+
+        // Auto-refresh every 10 seconds
+        setInterval(loadTokens, 10000);
+    </script>
+</body>
+</html>
+
