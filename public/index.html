@@ -193,10 +193,6 @@
                 font-size: 10px;
                 min-width: 120px;
             }
-            .date-separator td::before,
-            .date-separator td::after {
-                content: '────';
-            }
             .date-separator td {
                 font-size: 12px;
                 letter-spacing: 1px;
@@ -212,26 +208,38 @@
         }
 
         .date-separator td {
-            text-align: center;
             padding: 12px 0;
-            color: #4CAF50;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 2px;
             border-bottom: 1px solid #2a2f4a;
             background: rgba(76, 175, 80, 0.06);
         }
 
-        .date-separator td span {
-            display: inline-block;
-            padding: 0 16px;
-            color: #ffffff;
+        .date-separator td > .date-sep-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .date-separator td::before,
-        .date-separator td::after {
-            content: '────────────────';
-            color: #3a3f5a;
+        .date-sep-inner::before,
+        .date-sep-inner::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #3a3f5a;
+        }
+
+        .date-sep-inner span {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .date-sep-inner .avg-label {
+            color: #4CAF50;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
         }
 
         .loading {
@@ -431,7 +439,7 @@
                                 ? (dayArr.reduce((a, b) => a + b, 0) / dayArr.length)
                                 : null;
                             const dayAvgStr = dayAvg !== null
-                                ? `<span style="margin-left:18px; font-size:12px; color:${dayAvg >= 0 ? '#4CAF50' : '#f44336'}; font-weight:600;">${dayAvg >= 0 ? '+' : ''}${dayAvg.toFixed(2)}% avg</span>`
+                                ? `<span style="color:${dayAvg >= 0 ? '#4CAF50' : '#f44336'}">${dayAvg >= 0 ? '+' : ''}${dayAvg.toFixed(2)}% avg</span>`
                                 : '';
 
                             // Compute this day's avg current mcap % change (left side)
@@ -440,12 +448,12 @@
                                 ? (dayCurrentArr.reduce((a, b) => a + b, 0) / dayCurrentArr.length)
                                 : null;
                             const dayCurrentAvgStr = dayCurrentAvg !== null
-                                ? `<span style="font-size:12px; color:${dayCurrentAvg >= 0 ? '#4CAF50' : '#f44336'}; font-weight:600; margin-right:18px;">${dayCurrentAvg >= 0 ? '+' : ''}${dayCurrentAvg.toFixed(1)}%</span>`
+                                ? `<span style="color:${dayCurrentAvg >= 0 ? '#4CAF50' : '#f44336'}">${dayCurrentAvg >= 0 ? '+' : ''}${dayCurrentAvg.toFixed(1)}%</span>`
                                 : '';
 
                             const sepRow = document.createElement('tr');
                             sepRow.className = 'date-separator';
-                            sepRow.innerHTML = `<td colspan="7">${dayCurrentAvgStr}<span>${tokenDateStr}</span>${dayAvgStr}</td>`;
+                            sepRow.innerHTML = `<td colspan="7"><div class="date-sep-inner">${dayCurrentAvgStr ? `<span class="avg-label">${dayCurrentAvgStr}</span>` : ''}<span>${tokenDateStr}</span>${dayAvgStr ? `<span class="avg-label">${dayAvgStr}</span>` : ''}</div></td>`;
                             tbody.appendChild(sepRow);
                             lastDateStr = tokenDateStr;
                         }
