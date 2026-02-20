@@ -328,6 +328,18 @@ app.get('/tokens/:id', (req, res) => {
     );
 });
 
+// DELETE /tokens/clear - Remove all tokens from the database
+app.delete('/tokens/clear', (req, res) => {
+    db.run('DELETE FROM tokens', function(err) {
+        if (err) {
+            console.error('Error clearing tokens:', err);
+            return res.status(500).json({ error: 'Failed to clear tokens' });
+        }
+        console.log(`🗑️ Cleared all tokens (${this.changes} rows deleted)`);
+        res.json({ success: true, message: `Cleared ${this.changes} tokens` });
+    });
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
