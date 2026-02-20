@@ -170,32 +170,28 @@
                 margin-bottom: 15px;
             }
             .tokens-table {
-                overflow-x: visible;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
             }
             table {
-                table-layout: fixed;
-                width: 100%;
+                min-width: 700px;
             }
             th, td {
                 padding: 6px 4px;
-                font-size: 12px;
+                font-size: 11px;
             }
             .token-name {
-                font-size: 12px;
-                word-break: break-all;
+                font-size: 11px;
             }
             .percent {
-                font-size: 13px;
+                font-size: 12px;
             }
             .mcap {
                 font-size: 11px;
             }
-            .hide-mobile {
-                display: none !important;
-            }
             .narrative {
                 font-size: 10px;
-                min-width: unset;
+                min-width: 120px;
             }
             .date-separator td::before,
             .date-separator td::after {
@@ -299,10 +295,10 @@
                         <th>Token</th>
                         <th>Captured MCAP</th>
                         <th>Current MCAP</th>
-                        <th class="hide-mobile">Highest MCAP</th>
+                        <th>Highest MCAP</th>
                         <th>Change</th>
-                        <th class="hide-mobile">Narrative</th>
-                        <th class="hide-mobile">Link</th>
+                        <th>Narrative</th>
+                        <th>Link</th>
                     </tr>
                 </thead>
                 <tbody id="tokens-body">
@@ -444,10 +440,10 @@
                             <td class="token-name"><a href="${token.link}" target="_blank" class="token-link" style="color:inherit;text-decoration:none;">${token.name}</a></td>
                             <td class="mcap">${formatCurrency(token.capturedMcap)}</td>
                             <td class="mcap"><div class="mcap-cell">${formatCurrency(token.currentMcap)}${mcapChangeHtml}</div></td>
-                            <td class="mcap hide-mobile">${formatCurrency(token.highestMcap)}</td>
+                            <td class="mcap">${formatCurrency(token.highestMcap)}</td>
                             <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
-                            <td class="narrative hide-mobile">${narrativeText}</td>
-                            <td class="hide-mobile"><a href="${token.link}" target="_blank" class="token-link">View</a></td>
+                            <td class="narrative">${narrativeText}</td>
+                            <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
                         `;
                         tbody.appendChild(row);
                     });
