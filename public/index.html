@@ -174,7 +174,7 @@
                 -webkit-overflow-scrolling: touch;
             }
             table {
-                min-width: 700px;
+                min-width: 780px;
             }
             th, td {
                 padding: 6px 4px;
@@ -295,6 +295,27 @@
             background: #f44336;
             color: white;
         }
+
+        .dumped-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .dumped-yes {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.13);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .dumped-no {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.12);
+            border: 1px solid rgba(76, 175, 80, 0.25);
+        }
     </style>
 </head>
 <body>
@@ -333,6 +354,7 @@
                         <th>Current MCAP</th>
                         <th>Highest MCAP</th>
                         <th>Change</th>
+                        <th>Dumped</th>
                         <th>Narrative</th>
                         <th>Link</th>
                     </tr>
@@ -396,7 +418,7 @@
                 tbody.innerHTML = '';
 
                 if (tokens.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
                 } else {
                     // --- Pre-compute per-day average % change (highest mcap) ---
                     const dayChanges = {}; // { 'DD/MM/YYYY': [percentChange, ...] }
@@ -453,7 +475,7 @@
 
                             const sepRow = document.createElement('tr');
                             sepRow.className = 'date-separator';
-                            sepRow.innerHTML = `<td colspan="7"><div class="date-sep-inner">${dayCurrentAvgStr ? `<span class="avg-label">${dayCurrentAvgStr}</span>` : ''}<span>${tokenDateStr}</span>${dayAvgStr ? `<span class="avg-label">${dayAvgStr}</span>` : ''}</div></td>`;
+                            sepRow.innerHTML = `<td colspan="8"><div class="date-sep-inner">${dayCurrentAvgStr ? `<span class="avg-label">${dayCurrentAvgStr}</span>` : ''}<span>${tokenDateStr}</span>${dayAvgStr ? `<span class="avg-label">${dayAvgStr}</span>` : ''}</div></td>`;
                             tbody.appendChild(sepRow);
                             lastDateStr = tokenDateStr;
                         }
@@ -462,6 +484,10 @@
                         const percentClass = token.percentChange >= 0 ? 'positive' : 'negative';
 
                         const narrativeText = token.narrative || 'N/A';
+
+                        // Dumped badge
+                        const dumpedClass = token.isDumped ? 'dumped-yes' : 'dumped-no';
+                        const dumpedText = token.isDumped ? 'Yes' : 'No';
 
                         // Calculate current vs captured change
                         let mcapChangeHtml = '';
@@ -478,6 +504,7 @@
                             <td class="mcap"><div class="mcap-cell">${formatCurrency(token.currentMcap)}${mcapChangeHtml}</div></td>
                             <td class="mcap">${formatCurrency(token.highestMcap)}</td>
                             <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
+                            <td><span class="dumped-badge ${dumpedClass}">${dumpedText}</span></td>
                             <td class="narrative">${narrativeText}</td>
                             <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
                         `;
