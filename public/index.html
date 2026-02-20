@@ -262,6 +262,32 @@
         .refresh-btn:hover {
             background: #45a049;
         }
+
+        .btn-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .freeze-btn {
+            background: #1a1f3a;
+            color: #f44336;
+            border: 1px solid #f44336;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .freeze-btn:hover {
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .freeze-btn.active {
+            background: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -285,7 +311,10 @@
             </div>
         </div>
 
-        <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
+        <div class="btn-row">
+            <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
+            <button class="freeze-btn" id="freeze-btn" onclick="toggleFreeze()">❄️ Freeze</button>
+        </div>
 
         <div class="tokens-table">
             <div id="loading" class="loading">Loading tokens...</div>
@@ -458,11 +487,27 @@
             }
         }
 
+        let isFrozen = false;
+
+        function toggleFreeze() {
+            isFrozen = !isFrozen;
+            const btn = document.getElementById('freeze-btn');
+            if (isFrozen) {
+                btn.classList.add('active');
+                btn.textContent = '🔓 Unfreeze';
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '❄️ Freeze';
+            }
+        }
+
         // Load tokens on page load
         loadTokens();
 
-        // Auto-refresh every 10 seconds
-        setInterval(loadTokens, 10000);
+        // Auto-refresh every 10 seconds (skipped when frozen)
+        setInterval(() => {
+            if (!isFrozen) loadTokens();
+        }, 10000);
     </script>
 </body>
 </html>
