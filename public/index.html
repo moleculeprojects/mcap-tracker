@@ -504,10 +504,10 @@
         // Load tokens on page load
         loadTokens();
 
-        // Auto-refresh every 10 seconds (skipped when frozen)
+        // Auto-refresh every 5 seconds (skipped when frozen)
         setInterval(() => {
             if (!isFrozen) loadTokens();
-        }, 10000);
+        }, 5000);
     </script>
 </body>
 </html>
