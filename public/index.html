@@ -145,35 +145,65 @@
             background: rgba(244, 67, 54, 0.12);
         }
 
-        @media (max-width: 400px) {
+        @media (max-width: 768px) {
+            body {
+                padding: 8px;
+            }
             .container {
-                padding: 10px;
+                padding: 0;
             }
             .stats {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
             }
             .stat-card {
-                padding: 15px;
-            }
-            .tokens-table {
-                overflow-x: auto;
-            }
-            th, td {
                 padding: 10px;
-                font-size: 14px;
+            }
+            .stat-label {
+                font-size: 11px;
+            }
+            .stat-value {
+                font-size: 18px;
             }
             h1 {
-                font-size: 24px;
-                margin-bottom: 20px;
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+            .tokens-table {
+                overflow-x: visible;
+            }
+            table {
+                table-layout: fixed;
+                width: 100%;
+            }
+            th, td {
+                padding: 6px 4px;
+                font-size: 12px;
+            }
+            .token-name {
+                font-size: 12px;
+                word-break: break-all;
             }
             .percent {
-                font-size: 16px;
+                font-size: 13px;
             }
             .mcap {
-                font-size: 12px;
+                font-size: 11px;
+            }
+            .hide-mobile {
+                display: none !important;
             }
             .narrative {
                 font-size: 10px;
+                min-width: unset;
+            }
+            .date-separator td::before,
+            .date-separator td::after {
+                content: '────';
+            }
+            .date-separator td {
+                font-size: 12px;
+                letter-spacing: 1px;
             }
         }
 
@@ -269,10 +299,10 @@
                         <th>Token</th>
                         <th>Captured MCAP</th>
                         <th>Current MCAP</th>
-                        <th>Highest MCAP</th>
+                        <th class="hide-mobile">Highest MCAP</th>
                         <th>Change</th>
-                        <th>Narrative</th>
-                        <th>Link</th>
+                        <th class="hide-mobile">Narrative</th>
+                        <th class="hide-mobile">Link</th>
                     </tr>
                 </thead>
                 <tbody id="tokens-body">
@@ -411,13 +441,13 @@
                         }
 
                         row.innerHTML = `
-                            <td class="token-name">${token.name}</td>
+                            <td class="token-name"><a href="${token.link}" target="_blank" class="token-link" style="color:inherit;text-decoration:none;">${token.name}</a></td>
                             <td class="mcap">${formatCurrency(token.capturedMcap)}</td>
                             <td class="mcap"><div class="mcap-cell">${formatCurrency(token.currentMcap)}${mcapChangeHtml}</div></td>
-                            <td class="mcap">${formatCurrency(token.highestMcap)}</td>
+                            <td class="mcap hide-mobile">${formatCurrency(token.highestMcap)}</td>
                             <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
-                            <td class="narrative">${narrativeText}</td>
-                            <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
+                            <td class="narrative hide-mobile">${narrativeText}</td>
+                            <td class="hide-mobile"><a href="${token.link}" target="_blank" class="token-link">View</a></td>
                         `;
                         tbody.appendChild(row);
                     });
