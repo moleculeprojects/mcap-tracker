@@ -145,6 +145,38 @@
             background: rgba(244, 67, 54, 0.12);
         }
 
+        @media (max-width: 400px) {
+            .container {
+                padding: 10px;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .stat-card {
+                padding: 15px;
+            }
+            .tokens-table {
+                overflow-x: auto;
+            }
+            th, td {
+                padding: 10px;
+                font-size: 14px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .percent {
+                font-size: 16px;
+            }
+            .mcap {
+                font-size: 12px;
+            }
+            .narrative {
+                font-size: 10px;
+            }
+        }
+
         .narrative {
             color: #aaa;
             font-size: 12px;
