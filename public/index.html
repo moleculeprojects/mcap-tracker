@@ -153,6 +153,28 @@
             word-wrap: break-word;
         }
 
+        .date-separator td {
+            text-align: center;
+            padding: 12px 0;
+            color: #4CAF50;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #2a2f4a;
+            background: rgba(76, 175, 80, 0.06);
+        }
+
+        .date-separator td span {
+            display: inline-block;
+            padding: 0 16px;
+        }
+
+        .date-separator td::before,
+        .date-separator td::after {
+            content: '────────────────';
+            color: #3a3f5a;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -281,7 +303,28 @@
                 if (tokens.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
                 } else {
+                    let lastDateStr = null;
+
                     tokens.forEach(token => {
+                        // --- Date separator logic ---
+                        const ts = token.capturedTimestamp;
+                        let tokenDateStr = null;
+                        if (ts) {
+                            const d = new Date(ts * 1000);
+                            const dd = String(d.getDate()).padStart(2, '0');
+                            const mm = String(d.getMonth() + 1).padStart(2, '0');
+                            const yyyy = d.getFullYear();
+                            tokenDateStr = `${dd}/${mm}/${yyyy}`;
+                        }
+
+                        if (tokenDateStr && tokenDateStr !== lastDateStr) {
+                            const sepRow = document.createElement('tr');
+                            sepRow.className = 'date-separator';
+                            sepRow.innerHTML = `<td colspan="7"><span>${tokenDateStr}</span></td>`;
+                            tbody.appendChild(sepRow);
+                            lastDateStr = tokenDateStr;
+                        }
+
                         const row = document.createElement('tr');
                         const percentClass = token.percentChange >= 0 ? 'positive' : 'negative';
 
