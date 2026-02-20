@@ -303,6 +303,19 @@
                 if (tokens.length === 0) {
                     tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
                 } else {
+                    // --- Pre-compute per-day average % change ---
+                    const dayChanges = {}; // { 'DD/MM/YYYY': [percentChange, ...] }
+                    tokens.forEach(token => {
+                        const ts = token.capturedTimestamp;
+                        if (!ts) return;
+                        const d = new Date(ts * 1000);
+                        const dateStr = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+                        if (token.percentChange !== null && token.percentChange !== undefined) {
+                            if (!dayChanges[dateStr]) dayChanges[dateStr] = [];
+                            dayChanges[dateStr].push(token.percentChange);
+                        }
+                    });
+
                     let lastDateStr = null;
 
                     tokens.forEach(token => {
@@ -318,9 +331,18 @@
                         }
 
                         if (tokenDateStr && tokenDateStr !== lastDateStr) {
+                            // Compute this day's avg change
+                            const dayArr = dayChanges[tokenDateStr] || [];
+                            const dayAvg = dayArr.length > 0
+                                ? (dayArr.reduce((a, b) => a + b, 0) / dayArr.length)
+                                : null;
+                            const dayAvgStr = dayAvg !== null
+                                ? `<span style="margin-left:18px; font-size:12px; color:${dayAvg >= 0 ? '#4CAF50' : '#f44336'}; font-weight:600;">${dayAvg >= 0 ? '+' : ''}${dayAvg.toFixed(2)}% avg</span>`
+                                : '';
+
                             const sepRow = document.createElement('tr');
                             sepRow.className = 'date-separator';
-                            sepRow.innerHTML = `<td colspan="7"><span>${tokenDateStr}</span></td>`;
+                            sepRow.innerHTML = `<td colspan="7"><span>${tokenDateStr}</span>${dayAvgStr}</td>`;
                             tbody.appendChild(sepRow);
                             lastDateStr = tokenDateStr;
                         }
