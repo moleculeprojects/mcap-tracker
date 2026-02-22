@@ -36,6 +36,7 @@ function initDatabase() {
             liquidity TEXT,
             narrative TEXT,
             is_dumped INTEGER DEFAULT 0,
+            source TEXT DEFAULT 'fresh',
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
@@ -44,12 +45,9 @@ function initDatabase() {
             console.error('Error creating table:', err);
         } else {
             console.log('Database initialized');
-            // Add is_dumped column if it doesn't exist (for existing databases)
-            db.run(`ALTER TABLE tokens ADD COLUMN is_dumped INTEGER DEFAULT 0`, (alterErr) => {
-                if (alterErr && !alterErr.message.includes('duplicate column')) {
-                    // Ignore "duplicate column" errors (column already exists)
-                }
-            });
+            // Migrations for existing databases
+            db.run(`ALTER TABLE tokens ADD COLUMN is_dumped INTEGER DEFAULT 0`, () => {});
+            db.run(`ALTER TABLE tokens ADD COLUMN source TEXT DEFAULT 'fresh'`, () => {});
         }
     });
 }
@@ -190,7 +188,7 @@ cron.schedule('*/5 * * * * *', async () => {
 
 // POST /add-token - Add a new token
 app.post('/add-token', (req, res) => {
-    const { name, link, address, timestamp, liquidity, market_cap, narrative, is_dumped } = req.body;
+    const { name, link, address, timestamp, liquidity, market_cap, narrative, is_dumped, source } = req.body;
 
     if (!name || !link) {
         return res.status(400).json({ error: 'name and link are required' });
@@ -205,15 +203,16 @@ app.post('/add-token', (req, res) => {
 
     const capturedTimestamp = timestamp || Math.floor(Date.now() / 1000);
     const isDumpedVal = is_dumped ? 1 : 0;
+    const sourceVal = source || 'fresh';
 
     db.run(
-        `INSERT INTO tokens (name, link, address, captured_mcap, highest_mcap, captured_timestamp, liquidity, narrative, is_dumped)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `INSERT INTO tokens (name, link, address, captured_mcap, highest_mcap, captured_timestamp, liquidity, narrative, is_dumped, source)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
          ON CONFLICT(link) DO UPDATE SET
             current_mcap = ?,
             highest_mcap = MAX(highest_mcap, ?),
             updated_at = CURRENT_TIMESTAMP`,
-        [name, link, tokenAddress, capturedMcap, capturedMcap, capturedTimestamp, liquidity || null, narrative || null, isDumpedVal, capturedMcap, capturedMcap],
+        [name, link, tokenAddress, capturedMcap, capturedMcap, capturedTimestamp, liquidity || null, narrative || null, isDumpedVal, sourceVal, capturedMcap, capturedMcap],
         function(err) {
             if (err) {
                 console.error('Error inserting token:', err);
@@ -245,6 +244,7 @@ app.get('/tokens', (req, res) => {
             liquidity,
             narrative,
             is_dumped,
+            source,
             created_at,
             updated_at,
             CASE
@@ -274,6 +274,7 @@ app.get('/tokens', (req, res) => {
                 liquidity: token.liquidity,
                 narrative: token.narrative,
                 isDumped: token.is_dumped === 1,
+                source: token.source || 'fresh',
                 createdAt: token.created_at,
                 updatedAt: token.updated_at
             }));
