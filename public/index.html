@@ -351,6 +351,7 @@
                     <tr>
                         <th>Token</th>
                         <th>Captured MCAP</th>
+                        <th>Captured Liq</th>
                         <th>Current MCAP</th>
                         <th>Highest MCAP</th>
                         <th>Change</th>
@@ -418,7 +419,7 @@
                 tbody.innerHTML = '';
 
                 if (tokens.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="9" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
                 } else {
                     // --- Pre-compute per-day average % change (highest mcap) ---
                     const dayChanges = {}; // { 'DD/MM/YYYY': [percentChange, ...] }
@@ -475,7 +476,7 @@
 
                             const sepRow = document.createElement('tr');
                             sepRow.className = 'date-separator';
-                            sepRow.innerHTML = `<td colspan="8"><div class="date-sep-inner">${dayCurrentAvgStr ? `<span class="avg-label">${dayCurrentAvgStr}</span>` : ''}<span>${tokenDateStr}</span>${dayAvgStr ? `<span class="avg-label">${dayAvgStr}</span>` : ''}</div></td>`;
+                            sepRow.innerHTML = `<td colspan="9"><div class="date-sep-inner">${dayCurrentAvgStr ? `<span class="avg-label">${dayCurrentAvgStr}</span>` : ''}<span>${tokenDateStr}</span>${dayAvgStr ? `<span class="avg-label">${dayAvgStr}</span>` : ''}</div></td>`;
                             tbody.appendChild(sepRow);
                             lastDateStr = tokenDateStr;
                         }
@@ -501,6 +502,7 @@
                         row.innerHTML = `
                             <td class="token-name"><a href="${token.link}" target="_blank" class="token-link" style="color:inherit;text-decoration:none;">${token.name}</a></td>
                             <td class="mcap">${formatCurrency(token.capturedMcap)}</td>
+                            <td class="mcap">${token.liquidity || 'N/A'}</td>
                             <td class="mcap"><div class="mcap-cell">${formatCurrency(token.currentMcap)}${mcapChangeHtml}</div></td>
                             <td class="mcap">${formatCurrency(token.highestMcap)}</td>
                             <td class="percent ${percentClass}">${formatPercent(token.percentChange)}</td>
