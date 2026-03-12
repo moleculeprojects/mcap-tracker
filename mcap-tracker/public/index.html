@@ -195,31 +195,48 @@
             }
             
             /* Responsive Trailing Settings */
-            .trailing-settings-container {
-                flex-wrap: wrap;
-                justify-content: center !important;
-                gap: 10px !important;
-                text-align: center;
-            }
-            .trailing-settings-container .separator {
-                display: none;
-            }
-            .trailing-settings-container > div {
-                flex: 1 1 40%;
-                min-width: 120px;
+            .trailing-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 20px;
+                background: #1a1f3a;
+                padding: 15px 20px;
+                border-radius: 8px;
+                border: 1px solid #2a2f4a;
+                margin-bottom: 20px;
             }
 
-            .btn-row {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 12px;
+            .trailing-info {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                font-size: 14px;
+                color: #4CAF50;
             }
-            .btn-row > div {
-                flex-wrap: wrap;
-                justify-content: center;
+
+            .monitor-status-sub {
+                text-align: center;
+                font-size: 11px;
+                color: #4CAF50;
+                font-weight: bold;
+                margin-top: -25px;
+                margin-bottom: 30px;
+                opacity: 0.8;
             }
-            .search-bar-wrap {
-                min-width: 100% !important;
+
+            @media (max-width: 900px) {
+                .trailing-row {
+                    flex-direction: column;
+                    align-items: stretch;
+                    gap: 15px;
+                }
+                .trailing-info {
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 10px 15px;
+                    text-align: center;
+                }
             }
         }
 
@@ -292,55 +309,14 @@
             margin-bottom: 20px;
         }
 
-        .refresh-btn {
-            background: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
-        }
-
-        .refresh-btn:hover {
-            background: #45a049;
-        }
-
-        .btn-row {
+        .action-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .freeze-btn {
-            background: #1a1f3a;
-            color: #f44336;
-            border: 1px solid #f44336;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            white-space: nowrap;
-        }
 
-        .freeze-btn:hover {
-            background: rgba(244, 67, 54, 0.15);
-        }
-
-        .freeze-btn.active {
-            background: #f44336;
-            color: white;
-        }
 
         .dumped-badge {
             display: inline-block;
@@ -448,6 +424,7 @@
 <body>
     <div class="container">
         <h1>🧬 Molecule Alpha</h1>
+        <div class="monitor-status-sub">● On-Chain Monitor Active</div>
 
         <div id="error-container"></div>
 
@@ -480,35 +457,23 @@
                 <div class="stat-label">Best Performer</div>
                 <div class="stat-value" id="best-performer">-</div>
             </div>
-            <div class="stat-card full-width">
-                <div class="stat-label">Trailing Settings</div>
-                <div class="stat-value trailing-settings-container" style="font-size: 14px; color: #4CAF50; line-height: 1.4; display: flex; justify-content: space-around; align-items: center; gap: 5px;">
-                    <div><span style="color: #888; font-size: 12px;">SL:</span> -25%</div>
-                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
-                    <div><span style="color: #888; font-size: 12px;">Breakeven:</span> +15% <span style="font-size: 10px; color: #4CAF50;">(+3% lock)</span></div>
-                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
-                    <div><span style="color: #888; font-size: 12px;">Trail Start:</span> +50%</div>
-                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
-                    <div><span style="color: #888; font-size: 12px;">Gap:</span> 50% <span style="font-size: 10px; color: #aaa;">(&lt;100%)</span></div>
-                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
-                    <div><span style="color: #888; font-size: 12px;">Gap:</span> 25% <span style="font-size: 10px; color: #aaa;">(≥100%)</span></div>
-                </div>
-            </div>
         </div>
 
-        <div class="btn-row">
+        <div class="trailing-row">
+            <div class="trailing-info">
+                <div style="font-weight: 700; color: #888; letter-spacing: 0.5px; font-size: 12px; text-transform: uppercase;">Trailing Settings:</div>
+                <div><span style="color: #888; font-size: 12px;">SL:</span> -25%</div>
+                <div><span style="color: #888; font-size: 12px;">BE:</span> +15% <span style="font-size: 10px; color: #4CAF50;">(+3% lock)</span></div>
+                <div><span style="color: #888; font-size: 12px;">Trail:</span> +50%</div>
+                <div><span style="color: #888; font-size: 12px;">Gap:</span> 50%/25%</div>
+            </div>
+
             <div class="search-bar-wrap">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
                 </svg>
                 <input id="token-search" type="text" placeholder="Search by name, address or DexScreener URL…" autocomplete="off" oninput="applySearch()" />
                 <button id="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
-            </div>
-            
-            <div style="display:flex; gap:10px; align-items:center;">
-                <div id="monitor-status" style="font-size: 11px; color: #4CAF50; font-weight: bold; white-space:nowrap;">● On-Chain Monitor Active</div>
-                <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
-                <button class="freeze-btn" id="freeze-btn" onclick="toggleFreeze()">❄️ Freeze</button>
             </div>
         </div>
 
@@ -900,9 +865,9 @@
         // Load tokens on page load
         loadTokens();
 
-        // Auto-refresh every 500ms (skipped when frozen)
+        // Auto-refresh every 500ms
         setInterval(() => {
-            if (!isFrozen) loadTokens();
+            loadTokens();
         }, 500);
     </script>
 </body>
