@@ -427,6 +427,10 @@
                 </div>
                 <div class="stat-value" id="avg-change">-</div>
             </div>
+            <div class="stat-card">
+                <div class="stat-label">Best Performer</div>
+                <div class="stat-value" id="best-performer" style="font-size: 16px;">-</div>
+            </div>
             <div class="stat-card half-width">
                 <div class="stat-label">Trailing Settings</div>
                 <div class="stat-value trailing-settings-container" style="font-size: 14px; color: #4CAF50; line-height: 1.4; display: flex; justify-content: space-around; align-items: center; gap: 5px; margin-top: 5px;">
@@ -575,14 +579,16 @@
                         document.getElementById('avg-change').style.color = '#888';
                     }
 
-                    const bestToken = tokens.reduce((best, current) =>
-                        (current.percentChange || 0) > (best.percentChange || 0) ? current : best
-                    );
                     const bestEl = document.getElementById('best-performer');
-                    const bestNum = bestToken.percentChange || 0;
-                    const bestChangeStr = (bestNum > 0 ? '+' : '') + bestNum.toFixed(2) + '%';
-                    bestEl.textContent = `${bestToken.name} ${bestChangeStr}`;
-                    bestEl.style.color = bestNum >= 0 ? '#4CAF50' : '#f44336';
+                    if (bestEl) {
+                        const bestToken = tokens.reduce((best, current) =>
+                            (current.percentChange || 0) > (best.percentChange || 0) ? current : best
+                        );
+                        const bestNum = bestToken.percentChange || 0;
+                        const bestChangeStr = (bestNum > 0 ? '+' : '') + bestNum.toFixed(2) + '%';
+                        bestEl.textContent = `${bestToken.name} ${bestChangeStr}`;
+                        bestEl.style.color = bestNum >= 0 ? '#4CAF50' : '#f44336';
+                    }
                 }
 
                 // Render table
