@@ -170,11 +170,15 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
-            .stat-card.full-width {
-                grid-column: span 2;
-            }
+            /* First 4 stat cards sit in pairs */
             .stat-card {
+                grid-column: span 1;
                 padding: 15px;
+            }
+            /* solitary boxes (5, 6, 7) span full width */
+            .stat-card:nth-child(5),
+            .stat-card.half-width {
+                grid-column: span 2;
             }
             .stat-label {
                 font-size: 12px;
@@ -191,26 +195,35 @@
                 -webkit-overflow-scrolling: touch;
             }
             table {
-                min-width: 900px; /* Force scroll on table instead of squeezing columns */
+                min-width: 900px; 
             }
             th, td {
                 padding: 12px 8px;
                 font-size: 12px;
             }
             
-            /* Responsive Trailing Settings */
+            /* Responsive Trailing Settings: 2x2 with vertical pipes */
             .trailing-settings-container {
                 flex-wrap: wrap;
                 justify-content: center !important;
-                gap: 10px !important;
+                gap: 0 !important;
+                row-gap: 8px !important;
+            }
+            .trailing-settings-container > div:not(.separator) {
+                flex: 0 0 45%;
                 text-align: center;
+                min-width: 0;
+                font-size: 13px;
             }
             .trailing-settings-container .separator {
-                display: none;
+                display: none !important;
+                flex: 0 0 auto;
+                opacity: 0.3;
             }
-            .trailing-settings-container > div {
-                flex: 1 1 40%;
-                min-width: 120px;
+            /* Show 1st and 3rd pipes for the pairs */
+            .trailing-settings-container .separator:nth-of-type(1),
+            .trailing-settings-container .separator:nth-of-type(3) {
+                display: block !important;
             }
 
             .search-bar-wrap {
