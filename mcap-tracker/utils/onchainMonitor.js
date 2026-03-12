@@ -334,7 +334,7 @@ async function startMonitor(db) {
     const pendingRefreshes = new Set(); // set of token addresses needing immediate check
 
     async function subscribeToToken(token) {
-        if (token.status !== 'active' || subscriptions.has(token.address)) return;
+        if (subscriptions.has(token.address)) return;
 
         console.log(`📡 [WS] Subscribing to ${token.name} (${token.pair_address || token.address})`);
         const subs = [];
@@ -382,11 +382,8 @@ async function startMonitor(db) {
                 continue;
             }
 
-            // Sync subscriptions
-            tokens.forEach(t => {
-                if (t.status === 'active') subscribeToToken(t);
-                else if (t.status === 'stopped') cleanupSubscriptions(t.address);
-            });
+            // Sync subscriptions (Monitor everything we are tracking, including stopped tokens)
+            tokens.forEach(t => subscribeToToken(t));
 
             // ── 2. Heartbeat ────────────────────────────────────────────────
             if (loopCount % 20 === 0 && ENABLE_HEARTBEAT_LOGGING) {
