@@ -1,0 +1,590 @@
+[
+  {
+    "name": "LobsterCoin",
+    "link": "https://dexscreener.com/solana/BKRBSQNUK1go2asxQD9pTA3oN19NZsopS1iCNMY63Y4F",
+    "timestamp": 1773237185,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "DICKEY",
+    "link": "https://dexscreener.com/solana/CVxUwjKtYkpSBn1vWv782LwuSJXZ8Sbz7DL5kkShTimh",
+    "timestamp": 1773237230,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "ANGYBIRB",
+    "link": "https://dexscreener.com/solana/C9MnFyKrEu7hMjfPqrKPnYN5guPLcFb3zASnRaEXo2eW",
+    "timestamp": 1773237276,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Claude",
+    "link": "https://dexscreener.com/solana/EvRXRWvah5LL3nBdmGUnNdw87LYjX5bGWeTYo4zuLdjj",
+    "timestamp": 1773237326,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Claude ",
+    "link": "https://dexscreener.com/solana/H3QLSDESumyrZFvV5Pm5udP1p89osu3HrDK1kYwkL7Mn",
+    "timestamp": 1773237334,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BioNote",
+    "link": "https://dexscreener.com/solana/4ECDy2RDbsHhpPRo8dymKAoJf3mcqJyJdWMgsGVRTtTA",
+    "timestamp": 1773237483,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "PUMP",
+    "link": "https://dexscreener.com/solana/8rskiubDa6HFvti4u55Jv7jQMjzMRBzrxHc8KmLXzQ3d",
+    "timestamp": 1773237591,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "him",
+    "link": "https://dexscreener.com/solana/BPfsQTUiZYA7khqLdVGBkF7QisUNp2fSFpAFJrbFcBXF",
+    "timestamp": 1773237762,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "orca",
+    "link": "https://dexscreener.com/solana/AYZ7M1kaiRnm2fb1NLzix2FTuLanKTazE5KbLqe51PFS",
+    "timestamp": 1773237809,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "$TARIFF",
+    "link": "https://dexscreener.com/solana/3xLf2L1TxXgEqQHaYb6jL6g4z7vxoA23Bxm7YjjRH5ai",
+    "timestamp": 1773237933,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BELI",
+    "link": "https://dexscreener.com/solana/HdaujbVB6aKMswgzPUATuEkWY3GtvxtvYY1AETAU9Lfq",
+    "timestamp": 1773238002,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MONEY",
+    "link": "https://dexscreener.com/solana/EF7sn8t4nWmGffQ8ym2uEE1LPDz3NPPJq8c4M5a8cS57",
+    "timestamp": 1773238009,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "LCASH",
+    "link": "https://dexscreener.com/solana/E9xNmAqDbsh3JiAEpAJxxcF2pLRpdeDRWnArQxqwExGc",
+    "timestamp": 1773238010,
+    "reason": "pre_filter: Too old: 7.2h (max 7h)"
+  },
+  {
+    "name": "retire",
+    "link": "https://dexscreener.com/solana/HmhspXoo1HxDWxNPxMFcn8J9oJEpRp3ktyxj2m852ee4",
+    "timestamp": 1773238015,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "RunCat",
+    "link": "https://dexscreener.com/solana/93cw1dbrc3rrVqwHyXrymQfyt1iFaRzcKtojDMxanVmd",
+    "timestamp": 1773238019,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "King",
+    "link": "https://dexscreener.com/solana/FYVkvUq6NHx4gC3i6hkJ2krG9sRRtKHHC7j9r6MCdBH5",
+    "timestamp": 1773238026,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MechaMecha",
+    "link": "https://dexscreener.com/solana/Cadou5YpxWxYpaMUsJXhdQg3bfMN4SXCgai83iA2M9jd",
+    "timestamp": 1773238149,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Max",
+    "link": "https://dexscreener.com/solana/ZbgT3gqZg2HH2VUsvMWn9Quvd5rM261SnQxzfeTyJHQ",
+    "timestamp": 1773238220,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "rico",
+    "link": "https://dexscreener.com/solana/A1zoL9ePghRS4xbwmqChBMgFB8wjYBEgfkxbCmv92x3Z",
+    "timestamp": 1773238311,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "COIN",
+    "link": "https://dexscreener.com/solana/C1L2HEcCtk23UiN2wMexpEpMyBNo2T2KN7dgsxdurJTm",
+    "timestamp": 1773238450,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Nami",
+    "link": "https://dexscreener.com/solana/594yknYGGfyjbkf2HNfzNcbE1MdRdYFXEtydx2N6ieD9",
+    "timestamp": 1773238470,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "CRAB",
+    "link": "https://dexscreener.com/solana/HxwXbiqTkVhkif64JuNryGsj3bUJSrL7kQr7ce2U9ptT",
+    "timestamp": 1773238538,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "CHEST",
+    "link": "https://dexscreener.com/solana/7DMZhS2KBS14dQSfKkpVHTSu2f8t7WDBsoU1xFL2BjGX",
+    "timestamp": 1773238546,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Noorung",
+    "link": "https://dexscreener.com/solana/CNSxHrjQqhqg9up3d7b2SHjfMiHjf1jPhcmzdt6qodcu",
+    "timestamp": 1773238548,
+    "reason": "pre_filter: Too old: 7.4h (max 7h)"
+  },
+  {
+    "name": "PRTL",
+    "link": "https://dexscreener.com/solana/ADLtdZMBudc93DQsqrWzaBu1eEQUSW3SjRfZV99hTC9K",
+    "timestamp": 1773238603,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "TiaoTiao",
+    "link": "https://dexscreener.com/solana/B19k98edupLsX7HzPdcvCBoGUe6dyq8FyQ85JSMDUaH9",
+    "timestamp": 1773238617,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MACHI",
+    "link": "https://dexscreener.com/solana/DZBkEpaBUUsP6F2sE4aVMeWB9Skvye87oqCKGAU3ZAsw",
+    "timestamp": 1773238619,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "whale",
+    "link": "https://dexscreener.com/solana/6uhQywNQWE3AVgWW3cJn61JRzkKPaj7Jjr8i4sD1or7C",
+    "timestamp": 1773238635,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "JEWPUTER",
+    "link": "https://dexscreener.com/solana/2stM5Cd4CfCtBrWoeD6fy1Jyj6GjPCEzkgRrb2YoYTnA",
+    "timestamp": 1773238697,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Claude",
+    "link": "https://dexscreener.com/solana/DKLjhTecj4A1eZBFhui556WkD1sN4TxLpn91XqgFTHcF",
+    "timestamp": 1773238704,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Grace",
+    "link": "https://dexscreener.com/solana/BTPjqSqWy5kGTg6N8J6Wag3hmYumerSTAuNXDDkfnxAh",
+    "timestamp": 1773238708,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MOUE",
+    "link": "https://dexscreener.com/solana/9WhXk9jjs8UcjHEtxMB5SD5Ge1P7HcWCNYzooBT4VAcc",
+    "timestamp": 1773238712,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BUBBA",
+    "link": "https://dexscreener.com/solana/H25z6NSuLb3kkwgYGdeyB69zkvSzuhHJAXAVDQuv9FvX",
+    "timestamp": 1773238735,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "TripleT",
+    "link": "https://dexscreener.com/solana/2TK1MsXtdZUmWNT3eh1oaTD4F8oteTTHQRq4jcxZe7pc",
+    "timestamp": 1773238740,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Prayer",
+    "link": "https://dexscreener.com/solana/DQY1KFaJ2xBvFxe6mXfDTLPkKCCjgtMNenhQyZ8DQDWf",
+    "timestamp": 1773239251,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BIRANCE",
+    "link": "https://dexscreener.com/solana/9eFK9EovER7YpdvXQdhYKdTHVDzoPNVQ5L9KeRpfxgrq",
+    "timestamp": 1773239373,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "SEEKERCLAW",
+    "link": "https://dexscreener.com/solana/5H1PKGU8em8nfpyJzkoFrRrqPVTRm7wLh4G9Rv4hzxVk",
+    "timestamp": 1773239379,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "AI;DR",
+    "link": "https://dexscreener.com/solana/DTeKUvyqcUtmi8RyuhpFX8ZGHzFREfzJKK5VSFEebdEe",
+    "timestamp": 1773239417,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Miauricio",
+    "link": "https://dexscreener.com/solana/8oyTPwoErQgmCse5uFi2YMiCkwsHuFRDA9HK36CF97oR",
+    "timestamp": 1773239626,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "ELONWIFLOB",
+    "link": "https://dexscreener.com/solana/23GkCch3mGKfcWwWLN5uQ4UJDrspMfjdQ3jAq55fRxaP",
+    "timestamp": 1773239740,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "KANGAROO",
+    "link": "https://dexscreener.com/solana/3i53fdLQKAXfDS6xxhCssGdym41HwNQ9uQGJXLFmK73u",
+    "timestamp": 1773240190,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Yoshi",
+    "link": "https://dexscreener.com/solana/2V43XRdh6qJb6dQd5QaRWjxKpRG4UCNNpKbB9z5xcSPv",
+    "timestamp": 1773241114,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "SEALION",
+    "link": "https://dexscreener.com/solana/21FTfDae8PX9hv4zoMPnjAGvhwo2C8izfh3aBVzJM9fj",
+    "timestamp": 1773241208,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "WIZARD",
+    "link": "https://dexscreener.com/solana/Dw4kAH8LhdmgfW1cgyvnWSwSDqkt37jeY7pW4oFkbGTu",
+    "timestamp": 1773241765,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Sweep",
+    "link": "https://dexscreener.com/solana/EAa1Rbv78VNzpGXFRH2HprcXC7V2npaif74Y3HKAvL5X",
+    "timestamp": 1773242747,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "STARBOY",
+    "link": "https://dexscreener.com/solana/38erQPfyszg2Et4ZtP9jZRNo9YgyiRg3Q39xiiifoDSL",
+    "timestamp": 1773243018,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "EMOJEW",
+    "link": "https://dexscreener.com/solana/6XCNaNLXHLrhhqUnMRk7QtMFrLuC1bZEKPye6urqf6xm",
+    "timestamp": 1773244251,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MACROHARD",
+    "link": "https://dexscreener.com/solana/6PMPqAVuijER12a1ZcVvhDxs5AidxaPqxrbzz1aoXFz7",
+    "timestamp": 1773244278,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Satoshi",
+    "link": "https://dexscreener.com/solana/39U5xNaFVQDxu2AVyFF5dK8HLDkADNSXwy1mjwY7vUbs",
+    "timestamp": 1773245150,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "moonpay",
+    "link": "https://dexscreener.com/solana/D2R1s89gkgVqaSS7cbEpQhu841rS4kWZZf11eEegwHUv",
+    "timestamp": 1773246049,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "emojeet",
+    "link": "https://dexscreener.com/solana/6DujpGuA4RpAh91LL5BVyBPdKSye9DxRJN9FvUqzpkxP",
+    "timestamp": 1773246519,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "JEJE",
+    "link": "https://dexscreener.com/solana/3ohPi12H9QGVXnBp2whXzJkoxu9e3QPdpsHw1XxLyV3d",
+    "timestamp": 1773246612,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "DIB",
+    "link": "https://dexscreener.com/solana/HfbqxKnFTbXBxWnRfnH6xogCHTAqM5AmUgK29r5bVXcx",
+    "timestamp": 1773247926,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "DIB",
+    "link": "https://dexscreener.com/solana/3iMEZepBgviYqNy7czH7oB7UkiWXuRcznkVoAReeZ3KG",
+    "timestamp": 1773248052,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Bodyoid",
+    "link": "https://dexscreener.com/solana/BQcmCvYH3DXTXqqFhs6CQNQT85QzdXsdJt9AAAosNyBz",
+    "timestamp": 1773248159,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Trumpleman",
+    "link": "https://dexscreener.com/solana/EbE37KYjx4Wth9okerE7yeu4oVit1ptQV3bJwfkXCaNt",
+    "timestamp": 1773248703,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "ABG",
+    "link": "https://dexscreener.com/solana/D55H8TZYGgS9u1Czm9wTj6ePfLA5RrTX7698GVRyUUu5",
+    "timestamp": 1773249141,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "DUCK",
+    "link": "https://dexscreener.com/solana/D9YH3NVG2f6vyaPbRFETZrFTJBqySjNaEA1kXfsZuV53",
+    "timestamp": 1773249665,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "JTRUMP",
+    "link": "https://dexscreener.com/solana/FnwiwrSGmVr286dRCrXZDsnvycmHQk5FawRgJpHR6iEZ",
+    "timestamp": 1773249964,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "\u7948\u7977\u5708",
+    "link": "https://dexscreener.com/solana/3gCRCVyRwL9eygdQNG5tVoiLqEGMsucufMDAGZT8iccc",
+    "timestamp": 1773250119,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BID",
+    "link": "https://dexscreener.com/solana/5F7iePodUJTX6y6DwY2BKrruxi7xCeCFoVzSzu4tBsbh",
+    "timestamp": 1773250416,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "WAR",
+    "link": "https://dexscreener.com/solana/9vtvBooqu7FsXEtQHLVhsA1v8hRa5GUeo2dDSrKy9gnw",
+    "timestamp": 1773250773,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "GBP",
+    "link": "https://dexscreener.com/solana/4V8VFP6xDhcRjBSDUViF5HxsQZJJ434fVD6j3Fk8ykLM",
+    "timestamp": 1773250947,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BUTTHOLE",
+    "link": "https://dexscreener.com/solana/6KCTDVSe7jiAAaVqQ6HbqtxmEksDrHpYQw9DqSE1Z8Y8",
+    "timestamp": 1773261445,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MACROHARD",
+    "link": "https://dexscreener.com/solana/GRbJMN1Ekqo59uMrERo1URwhSjg7445N6myf1CZaJGtd",
+    "timestamp": 1773261447,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "INFINITE",
+    "link": "https://dexscreener.com/solana/jRtsR7rTZXJrk8fNjPEX5bBcdp1hEHXU4JcA1BeFxBh",
+    "timestamp": 1773261487,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Crying",
+    "link": "https://dexscreener.com/solana/Dxn5Nd1VGjYod9eyt2Cr2WYdKYotsib4LxEy9gs2opoG",
+    "timestamp": 1773261669,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "STRIKEMAP",
+    "link": "https://dexscreener.com/solana/Gabbf2hdPx5k1QBt9xigKMf9EbHRLiqJ4GzWh5r8HfkK",
+    "timestamp": 1773261675,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Rafa",
+    "link": "https://dexscreener.com/solana/7HvL7F5fgSxvrd2ybhCVAxB6T1qFQ8Q1h8LstxBPHvqu",
+    "timestamp": 1773261679,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Cruz",
+    "link": "https://dexscreener.com/solana/Fo4gfKhYcfMq8ga3JZA1ku4DSJWvHsq7ukHiYjNWBfYV",
+    "timestamp": 1773261686,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Shoes",
+    "link": "https://dexscreener.com/solana/4gokknGJuegpHFfr7dUiVbHCKA7LvK1f3x8721s5Gzz2",
+    "timestamp": 1773261719,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Aria",
+    "link": "https://dexscreener.com/solana/Cc4ESNrg7BEuRrrG2UhX9RhUMXbeGpRH56dSVdhThVYg",
+    "timestamp": 1773261768,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Shocked",
+    "link": "https://dexscreener.com/solana/G5NPCKs4WBEfdzQXGVZHCXRDthJFhSpKdLwhP874doYd",
+    "timestamp": 1773261796,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "butthole",
+    "link": "https://dexscreener.com/solana/JTLFUyoQEkCGNWrABqeuBiDLkgAofrK4LakM32iCZ4c",
+    "timestamp": 1773261846,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "ITZAE",
+    "link": "https://dexscreener.com/solana/CuhAiHaT2iBaFEmaFMCLQtnLNrY22T9iHBNm2eoLJmdk",
+    "timestamp": 1773261973,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "SON",
+    "link": "https://dexscreener.com/solana/HHj5mBCLNkWCeJrguxHzSXf1dcadQPYYUoRfVCseNNMb",
+    "timestamp": 1773262001,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "LEO",
+    "link": "https://dexscreener.com/solana/9XrjtxtJnALdy6iBgeUi8ch9qWGxe8EJUoWkGLd9zhWW",
+    "timestamp": 1773262053,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "butthole",
+    "link": "https://dexscreener.com/solana/CEBUgiUrEcDjg4eqsV9jGukPBHN3zL4eDJfEUMgiRRNq",
+    "timestamp": 1773262083,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "EXPERIMENT",
+    "link": "https://dexscreener.com/solana/9dMmyDKdLAfGtxvLCrg3MzSMu5qX26oz54E8dSN8ask1",
+    "timestamp": 1773262296,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "Supercoin",
+    "link": "https://dexscreener.com/solana/8YJsW3hGETAX8M8HHsRS8TY1C4x5CBbL9TJ3C2gE9RQY",
+    "timestamp": 1773262395,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "GAP",
+    "link": "https://dexscreener.com/solana/6nWxEGXoYMdFeZt6Vq5qrwhiyFCHs43Zbw58WjyqoAKR",
+    "timestamp": 1773262488,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "BrainFry",
+    "link": "https://dexscreener.com/solana/8xCmUy6R2BbiNbiuYDFZPbG3LnuzRpJcAS3Ba2oQEt4J",
+    "timestamp": 1773262628,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "UNHAPPY",
+    "link": "https://dexscreener.com/solana/7kR5HUekgM2Fu4JsDzZf2bc4AMt2VDKnhxFNhcoNE5Kk",
+    "timestamp": 1773262631,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "FRIED",
+    "link": "https://dexscreener.com/solana/Cc5rn4Dyhq79nHU9E5onCRyzx2yMapQqpUEV41ocC6aX",
+    "timestamp": 1773262742,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "AGI",
+    "link": "https://dexscreener.com/solana/Ave7duqkdEwGt5hgwGgoQmTfTwZWrp4pMBwYu6Nfcybz",
+    "timestamp": 1773262744,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "WILL",
+    "link": "https://dexscreener.com/solana/HE5H6hM8HSAAxPhtJ1ZjtZjgH4W9YCuDNxmam62YCfPv",
+    "timestamp": 1773263154,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "KAGE",
+    "link": "https://dexscreener.com/solana/CaHPdomoJdziQyUGAdRf9ZohvXtSEfU9UTg9dc6S1Grb",
+    "timestamp": 1773263180,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "EYES",
+    "link": "https://dexscreener.com/solana/9pnMBJv2oGZoDixAnWP6d2ypMybsg5VKYsmFyHWftCkP",
+    "timestamp": 1773263283,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "SHART",
+    "link": "https://dexscreener.com/solana/8SQL1QRqsRkfMFpYDJXEPz4PjAffsm2xWgWYfEXABHCr",
+    "timestamp": 1773263381,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "DISDOGE",
+    "link": "https://dexscreener.com/solana/5wz237tSj3KkbZrxBScanh96byeE5be6TWCcqNmkopt6",
+    "timestamp": 1773263891,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "NEXFIN",
+    "link": "https://dexscreener.com/solana/EFHeY2rFrCAcztKUCbDYfxaEUcyVixEhuSu1DodU8VED",
+    "timestamp": 1773264043,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "AEON",
+    "link": "https://dexscreener.com/solana/GC1HUNxMmZerzLKrMzTJGS5WBRUg9uk2PyaNqdTayrWX",
+    "timestamp": 1773264135,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "TRUMPKIM",
+    "link": "https://dexscreener.com/solana/4A15LHcxsRXJvFrgDx8vUstBdRMq8uPHPRWJyHZ7r9is",
+    "timestamp": 1773264326,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MACROHARD",
+    "link": "https://dexscreener.com/solana/DX8DCZfKsgMDonc9MWAmd3gbs4beTL8cYzk58CGd96we",
+    "timestamp": 1773265027,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "ANGUS",
+    "link": "https://dexscreener.com/solana/FCNUiqk5f6yuUvRe6L2fsFF1Q35mC7TJWssAVUqd2Zcb",
+    "timestamp": 1773265131,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "MICROPAY",
+    "link": "https://dexscreener.com/solana/D5guEbBCvtgGu7KwQwdF9E2ebrawwkC95qMPkuXcgTaj",
+    "timestamp": 1773265150,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "OPTIMUS",
+    "link": "https://dexscreener.com/solana/98DKu6yrbHgGRxmeTqN6TCEgk6JPHxwe7qvDCz6TkTX8",
+    "timestamp": 1773265584,
+    "reason": "failed_checks"
+  },
+  {
+    "name": "DDOGE",
+    "link": "https://dexscreener.com/solana/Aek7R6ZoswJn4miZ8yb3ZWMNPTusLyPFcYbw5EKM8WpZ",
+    "timestamp": 1773265660,
+    "reason": "failed_checks"
+  }
+]

@@ -1,0 +1,12 @@
+node_modules/
+.env
+.DS_Store
+*.db
+*.db-journal
+*.db-wal
+playwright/
+.web-cache/
+test-results/
+playwright-report/
+blob-report/
+npm-debug.log*

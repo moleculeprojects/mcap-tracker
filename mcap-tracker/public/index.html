@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molecule Alpha</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0a0e27;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #1a1f3a;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #2a2f4a;
+        }
+
+        .stat-card.full-width {
+            grid-column: span 5;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        .tokens-table {
+            background: #1a1f3a;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #2a2f4a;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #2a2f4a;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #4CAF50;
+            border-bottom: 2px solid #3a3f5a;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #2a2f4a;
+        }
+
+        tr:hover {
+            background: #252a45;
+        }
+
+        .token-name {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .token-link {
+            color: #64B5F6;
+            text-decoration: none;
+        }
+
+        .token-link:hover {
+            text-decoration: underline;
+        }
+
+        .percent {
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .percent.positive {
+            color: #4CAF50;
+        }
+
+        .percent.negative {
+            color: #f44336;
+        }
+
+        .mcap {
+            color: #888;
+            font-size: 14px;
+        }
+
+        .mcap-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
+        .mcap-change {
+            font-size: 11px;
+            font-weight: 600;
+            align-self: flex-end;
+            border-radius: 4px;
+            padding: 1px 6px;
+        }
+
+        .mcap-change.up {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.12);
+        }
+
+        .mcap-change.down {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.12);
+        }
+
+        @media (max-width: 1024px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            .container {
+                padding: 0;
+            }
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .stat-card.full-width {
+                grid-column: span 2;
+            }
+            .stat-card {
+                padding: 15px;
+            }
+            .stat-label {
+                font-size: 12px;
+            }
+            .stat-value {
+                font-size: 20px;
+            }
+            h1 {
+                font-size: 24px;
+                margin-bottom: 20px;
+            }
+            .tokens-table {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            table {
+                min-width: 900px; /* Force scroll on table instead of squeezing columns */
+            }
+            th, td {
+                padding: 12px 8px;
+                font-size: 12px;
+            }
+            
+            /* Responsive Trailing Settings */
+            .trailing-settings-container {
+                flex-wrap: wrap;
+                justify-content: center !important;
+                gap: 10px !important;
+                text-align: center;
+            }
+            .trailing-settings-container .separator {
+                display: none;
+            }
+            .trailing-settings-container > div {
+                flex: 1 1 40%;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .stat-card.full-width {
+                grid-column: span 1;
+            }
+            .trailing-settings-container > div {
+                flex: 1 1 100%;
+            }
+        }
+
+        .narrative {
+            color: #aaa;
+            font-size: 12px;
+            min-width: 250px;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .date-separator td {
+            padding: 12px 0;
+            border-bottom: 1px solid #2a2f4a;
+            background: rgba(76, 175, 80, 0.06);
+        }
+
+        .date-separator td > .date-sep-inner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .date-sep-inner::before,
+        .date-sep-inner::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #3a3f5a;
+        }
+
+        .date-sep-inner span {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .date-sep-inner .avg-label {
+            color: #4CAF50;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+
+        .error {
+            background: #f44336;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .refresh-btn:hover {
+            background: #45a049;
+        }
+
+        .btn-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .freeze-btn {
+            background: #1a1f3a;
+            color: #f44336;
+            border: 1px solid #f44336;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .freeze-btn:hover {
+            background: rgba(244, 67, 54, 0.15);
+        }
+
+        .freeze-btn.active {
+            background: #f44336;
+            color: white;
+        }
+
+        .dumped-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .dumped-yes {
+            color: #f44336;
+            background: rgba(244, 67, 54, 0.13);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+
+        .dumped-no {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.12);
+            border: 1px solid rgba(76, 175, 80, 0.25);
+        }
+
+        .dumped-breakeven {
+            border: 1px solid #666 !important; /* Force gray border for breakevens */
+        }
+
+        .source-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            letter-spacing: 0.6px;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        .source-fresh {
+            color: #4CAF50;
+            background: rgba(76, 175, 80, 0.12);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .source-dip {
+            color: #ff9800;
+            background: rgba(255, 152, 0, 0.12);
+            border: 1px solid rgba(255, 152, 0, 0.35);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧬 Molecule Alpha</h1>
+
+        <div id="error-container"></div>
+
+        <div class="stats" id="stats">
+            <div class="stat-card">
+                <div class="stat-label">Total Tokens</div>
+                <div class="stat-value" id="total-tokens">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Win Rate (Closed)</div>
+                <div class="stat-value" id="win-rate">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Active / Closed</div>
+                <div class="stat-value" id="active-closed-count">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label" style="display:flex; align-items:center; justify-content:space-between;">
+                    <span>Net Profit/Loss</span>
+                    <span id="pnl-toggle" onclick="togglePnlMode()" style="
+                        font-size: 10px; font-weight: 700; cursor: pointer;
+                        border-radius: 20px; padding: 2px 8px; letter-spacing: 0.5px;
+                        background: rgba(76,175,80,0.15); color: #4CAF50;
+                        border: 1px solid rgba(76,175,80,0.35); transition: all 0.2s;
+                    ">CLOSED</span>
+                </div>
+                <div class="stat-value" id="avg-change">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Best Performer</div>
+                <div class="stat-value" id="best-performer">-</div>
+            </div>
+            <div class="stat-card full-width">
+                <div class="stat-label">Trailing Settings</div>
+                <div class="stat-value trailing-settings-container" style="font-size: 14px; color: #4CAF50; line-height: 1.4; display: flex; justify-content: space-around; align-items: center; gap: 5px;">
+                    <div><span style="color: #888; font-size: 12px;">SL:</span> -25%</div>
+                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
+                    <div><span style="color: #888; font-size: 12px;">Breakeven:</span> +15% <span style="font-size: 10px; color: #4CAF50;">(+3% lock)</span></div>
+                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
+                    <div><span style="color: #888; font-size: 12px;">Trail Start:</span> +50%</div>
+                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
+                    <div><span style="color: #888; font-size: 12px;">Gap:</span> 50% <span style="font-size: 10px; color: #aaa;">(&lt;100%)</span></div>
+                    <div class="separator" style="color: #4CAF50; opacity: 0.3;">|</div>
+                    <div><span style="color: #888; font-size: 12px;">Gap:</span> 25% <span style="font-size: 10px; color: #aaa;">(≥100%)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-row">
+            <div style="display:flex; gap:10px; align-items:center;">
+                <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
+                <div id="monitor-status" style="font-size: 11px; color: #4CAF50; font-weight: bold;">● On-Chain Monitor Active</div>
+            </div>
+            <button class="freeze-btn" id="freeze-btn" onclick="toggleFreeze()">❄️ Freeze</button>
+        </div>
+
+        <div class="tokens-table">
+            <div id="loading" class="loading">Loading tokens...</div>
+            <table id="tokens-table" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>Token</th>
+                        <th>Captured MCAP</th>
+                        <th>Captured Liq</th>
+                        <th>Current MCAP</th>
+                        <th>Highest MCAP</th>
+                        <th>Active SL</th>
+                        <th>Status</th>
+                        <th>Play</th>
+                        <th>Narrative</th>
+                        <th>Link</th>
+                    </tr>
+                </thead>
+                <tbody id="tokens-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function formatCurrency(value) {
+            if (!value) return 'N/A';
+            if (value >= 1000000) return '$' + (value / 1000000).toFixed(2) + 'M';
+            if (value >= 1000) return '$' + (value / 1000).toFixed(2) + 'K';
+            return '$' + value.toFixed(2);
+        }
+
+        function formatPercent(value) {
+            if (value === null || value === undefined) return 'N/A';
+            const sign = value >= 0 ? '+' : '';
+            return sign + value.toFixed(2) + '%';
+        }
+
+        function formatSolPrice(p) {
+            if (!p) return '0.00';
+            if (p >= 0.001) {
+                if (p < 1) return p.toFixed(6);
+                return p.toFixed(4);
+            }
+
+            // Subscript decimal formatting for tiny numbers (DexScreener style)
+            // e.g., 0.000002633 -> 0.0₅2633
+            const str = p.toFixed(12); // Max precision
+            const match = str.match(/^0\.0+([1-9]\d*)/);
+
+            if (match) {
+                const numZeros = str.indexOf(match[1]) - 2;
+                if (numZeros >= 3) {
+                    const sigFigs = match[1].slice(0, 4); // Only keep 4 significant figures
+                    // Optional: trim trailing zeros in the sig figs if present
+                    return `0.0<sub style="font-size: 0.8em; opacity: 0.8;">${numZeros}</sub>${sigFigs}`;
+                }
+            }
+
+            return p.toExponential(4);
+        }
+
+        let initialLoad = true;
+
+        async function loadTokens() {
+            const loading = document.getElementById('loading');
+            const table = document.getElementById('tokens-table');
+            const errorContainer = document.getElementById('error-container');
+
+            if (initialLoad) {
+                loading.style.display = 'block';
+                table.style.display = 'none';
+            }
+            errorContainer.innerHTML = '';
+
+            try {
+                const response = await fetch('/tokens');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                const tokens = data.tokens || [];
+
+                // ... (rest of logic handles updates)
+
+                // Update stats
+                document.getElementById('total-tokens').textContent = tokens.length;
+
+                if (tokens.length > 0) {
+                    // Calculate Active/Closed trades
+                    const activeCount = tokens.filter(t => t.status !== 'stopped').length;
+                    const closedTrades = tokens.filter(t => t.status === 'stopped');
+                    const closedCount = closedTrades.length;
+                    document.getElementById('active-closed-count').innerHTML =
+                        `<span style="color: #4CAF50;">${activeCount}</span> <span style="color: #888; font-size: 14px;">/</span> <span style="color: #f44336;">${closedCount}</span>`;
+
+                    // Calculate Win Rate (only closed trades)
+                    const winningClosedCount = closedTrades.filter(t => (t.percentChange || 0) >= 0).length;
+                    const losingClosedCount = closedCount - winningClosedCount;
+                    const winRate = closedCount > 0 ? (winningClosedCount / closedCount * 100) : 0;
+                    const winRateColor = winRate >= 50 ? '#4CAF50' : (winRate > 0 ? '#ff9800' : '#f44336');
+                    const winRateEl = document.getElementById('win-rate');
+                    winRateEl.style.color = winRateColor;
+                    winRateEl.innerHTML = `${winRate.toFixed(1)}% <span style="font-size:13px; font-weight:500; color:#888; margin-left:4px;"><span style="color:#4CAF50;">${winningClosedCount}W</span> / <span style="color:#f44336;">${losingClosedCount}L</span></span>`;
+
+                    // Net P&L — respect pnlMode (default: 'closed')
+                    const pnlTokens = (pnlMode === 'closed') ? closedTrades : tokens;
+                    const changes = pnlTokens.map(t => t.percentChange).filter(c => c !== null);
+                    if (changes.length > 0) {
+                        const avgNum = changes.reduce((a, b) => a + b, 0) / changes.length;
+                        const avgChange = (avgNum > 0 ? '+' : '') + avgNum.toFixed(2) + '%';
+                        const avgEl = document.getElementById('avg-change');
+                        avgEl.textContent = avgChange;
+                        avgEl.style.color = avgNum >= 0 ? '#4CAF50' : '#f44336';
+                    } else {
+                        document.getElementById('avg-change').textContent = 'N/A';
+                        document.getElementById('avg-change').style.color = '#888';
+                    }
+
+                    const bestToken = tokens.reduce((best, current) =>
+                        (current.percentChange || 0) > (best.percentChange || 0) ? current : best
+                    );
+                    const bestEl = document.getElementById('best-performer');
+                    const bestNum = bestToken.percentChange || 0;
+                    const bestChangeStr = (bestNum > 0 ? '+' : '') + bestNum.toFixed(2) + '%';
+                    bestEl.textContent = `${bestToken.name} ${bestChangeStr}`;
+                    bestEl.style.color = bestNum >= 0 ? '#4CAF50' : '#f44336';
+                }
+
+                // Render table
+                const tbody = document.getElementById('tokens-body');
+                tbody.innerHTML = '';
+
+                if (tokens.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; padding: 40px; color: #888;">No tokens found</td></tr>';
+                } else {
+                    // --- Pre-compute per-day average % change (highest mcap) ---
+                    const dayChanges = {}; // { 'DD/MM/YYYY': [percentChange, ...] }
+                    // --- Pre-compute per-day average current mcap % change ---
+                    const dayCurrentChanges = {}; // { 'DD/MM/YYYY': [mcapDelta, ...] }
+                    tokens.forEach(token => {
+                        const ts = token.capturedTimestamp;
+                        if (!ts) return;
+                        const d = new Date(ts * 1000);
+                        const dateStr = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+                        if (token.highestPercentChange !== null && token.highestPercentChange !== undefined) {
+                            if (!dayChanges[dateStr]) dayChanges[dateStr] = [];
+                            dayChanges[dateStr].push(token.highestPercentChange);
+                        }
+                        if (token.percentChange !== null && token.percentChange !== undefined) {
+                            if (!dayCurrentChanges[dateStr]) dayCurrentChanges[dateStr] = [];
+                            dayCurrentChanges[dateStr].push(token.percentChange);
+                        }
+                    });
+
+                    let lastDateStr = null;
+
+                    tokens.forEach(token => {
+                        // --- Date separator logic ---
+                        const ts = token.capturedTimestamp;
+                        let tokenDateStr = null;
+                        if (ts) {
+                            const d = new Date(ts * 1000);
+                            const dd = String(d.getDate()).padStart(2, '0');
+                            const mm = String(d.getMonth() + 1).padStart(2, '0');
+                            const yyyy = d.getFullYear();
+                            tokenDateStr = `${dd}/${mm}/${yyyy}`;
+                        }
+
+                        if (tokenDateStr && tokenDateStr !== lastDateStr) {
+                            // Compute this day's avg highest mcap change (right side)
+                            const dayArr = dayChanges[tokenDateStr] || [];
+                            const dayAvg = dayArr.length > 0
+                                ? (dayArr.reduce((a, b) => a + b, 0) / dayArr.length)
+                                : null;
+                            const dayAvgStr = dayAvg !== null
+                                ? `<span style="color:${dayAvg >= 0 ? '#4CAF50' : '#f44336'}; font-size: 0.85em;">Avg Highest: ${dayAvg >= 0 ? '+' : ''}${dayAvg.toFixed(2)}%</span>`
+                                : '';
+
+                            // Compute this day's avg current mcap % change (left side)
+                            const dayCurrentArr = dayCurrentChanges[tokenDateStr] || [];
+                            const dayCurrentAvg = dayCurrentArr.length > 0
+                                ? (dayCurrentArr.reduce((a, b) => a + b, 0) / dayCurrentArr.length)
+                                : null;
+                            const dayCurrentAvgStr = dayCurrentAvg !== null
+                                ? `<span style="color:${dayCurrentAvg >= 0 ? '#4CAF50' : '#f44336'}; font-size: 0.85em;">Avg Current: ${dayCurrentAvg >= 0 ? '+' : ''}${dayCurrentAvg.toFixed(2)}%</span>`
+                                : '';
+
+                            const sepRow = document.createElement('tr');
+                            sepRow.className = 'date-separator';
+                            sepRow.innerHTML = `<td colspan="11"><div class="date-sep-inner">${dayCurrentAvgStr ? `<span class="avg-label">${dayCurrentAvgStr}</span>` : ''}<span>${tokenDateStr}</span>${dayAvgStr ? `<span class="avg-label">${dayAvgStr}</span>` : ''}</div></td>`;
+                            tbody.appendChild(sepRow);
+                            lastDateStr = tokenDateStr;
+                        }
+
+                        const row = document.createElement('tr');
+                        const isStopped = token.status === 'stopped';
+                        if (isStopped) row.style.opacity = '0.85';
+
+                        const percentClass = token.percentChange >= 0 ? 'positive' : 'negative';
+                        const narrativeText = token.narrative || 'N/A';
+
+                        // Status Badge
+                        let statusHtml = '';
+                        if (isStopped) {
+                            let exitText = token.exitReason || 'Target Hit';
+                            if (exitText.includes("SL Hit (-25%)")) {
+                                const curPct = token.percentChange !== null ? token.percentChange.toFixed(2) : '-25.00';
+                                exitText = `Initial SL hit @ ${curPct}%`;
+                            } else if (exitText.includes("Trailing SL Hit")) {
+                                const curPct = token.percentChange !== null ? token.percentChange.toFixed(2) : '0.00';
+                                const sign = (token.percentChange || 0) > 0 ? '+' : '';
+                                exitText = `Trailing SL hit @ ${sign}${curPct}%`;
+                            }
+                            const isBreakeven = exitText.includes("Breakeven");
+                            if (isBreakeven) {
+                                const curPct = token.percentChange !== null ? token.percentChange.toFixed(2) : '0.00';
+                                const sign = (token.percentChange || 0) > 0 ? '+' : '';
+                                exitText = `Breakeven hit @ ${sign}${curPct}%`;
+                            }
+                            
+                            // Always use profit-based color class
+                            const colorClass = (token.percentChange || 0) >= 0 ? 'dumped-no' : 'dumped-yes';
+                            // Add breakeven class for border override if applicable
+                            const badgeClass = isBreakeven ? `${colorClass} dumped-breakeven` : colorClass;
+                            
+                            const postExitHigh = token.postExitHighestMcap ? formatCurrency(token.postExitHighestMcap) : '';
+                            const postExitLow = token.postExitLowestMcap ? formatCurrency(token.postExitLowestMcap) : '';
+
+                            statusHtml = `
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                                    <sup style="font-size: 9px; color: #4CAF50; font-weight: bold; opacity: 0.8;">${postExitHigh}</sup>
+                                    <span class="dumped-badge ${badgeClass}" style="font-size:10px;">${exitText}</span>
+                                    <sub style="font-size: 9px; color: #f44336; font-weight: bold; opacity: 0.8;">${postExitLow}</sub>
+                                </div>
+                            `;
+                        } else {
+                            statusHtml = `<span class="dumped-badge dumped-no">ACTIVE</span>`;
+                        }
+
+                        // SL Display
+                        let slHtml = '---';
+                        const supply = token.totalSupply || 1;
+                        if (!isStopped) {
+                            if (token.trailingSlSol && token.trailingSlSol > 0) {
+                                const slUsd = token.trailingSlSol * (token.solPrice || 0);
+                                slHtml = `<span style="color: #ff9800;">${formatCurrency(slUsd)} <br/><span style="font-size:0.85em">(${token.trailingSlSol.toFixed(2)} sol)</span></span>`;
+                            } else {
+                                // Default SL (-25% in SOL)
+                                const capSol = token.capturedMcapSol || (token.capturedMcap / (token.solPrice || 1));
+                                const baseSLSol = capSol * 0.75;
+                                const baseSLUsd = baseSLSol * (token.solPrice || 0);
+                                slHtml = `<span style="color: #888;">${formatCurrency(baseSLUsd)} <br/><span style="font-size:0.85em">(${baseSLSol.toFixed(2)} sol)</span></span>`;
+                            }
+                        }
+
+                        // Calculate current vs captured change
+                        let mcapChangeHtml = '';
+                        if (token.percentChange !== null) {
+                            const mcapDelta = token.percentChange;
+                            const mcapSign = mcapDelta >= 0 ? '+' : '';
+                            const mcapClass = mcapDelta >= 0 ? 'up' : 'down';
+                            mcapChangeHtml = `<span class="mcap-change ${mcapClass}">${mcapSign}${mcapDelta.toFixed(2)}%</span>`;
+                        }
+
+                        // Calculate highest vs captured change
+                        let highestChangeHtml = '';
+                        if (token.highestPercentChange !== null && token.highestPercentChange !== undefined) {
+                            const highDelta = token.highestPercentChange;
+                            const highSign = highDelta >= 0 ? '+' : '';
+                            const highClass = highDelta >= 0 ? 'up' : 'down';
+                            highestChangeHtml = `<span class="mcap-change ${highClass}">${highSign}${highDelta.toFixed(2)}%</span>`;
+                        }
+
+                        const srcLabel = token.source === 'dip' ? 'Dip' : 'Fresh';
+                        const srcClass = token.source === 'dip' ? 'source-dip' : 'source-fresh';
+
+                        const capSol = token.capturedMcapSol || 0;
+                        const curSol = token.currentMcapSol || 0;
+                        const highSol = token.highestMcapSol || 0;
+
+                        const capSolDisplay = capSol > 0 ? ` <br/><span style="color:#888;font-size:0.85em;">(${capSol.toFixed(2)} sol)</span>` : '';
+                        const curSolDisplay = curSol > 0 ? ` <br/><span style="color:#888;font-size:0.85em;">(${curSol.toFixed(2)} sol)</span>` : '';
+                        const highSolDisplay = highSol > 0 ? ` <br/><span style="color:#888;font-size:0.85em;">(${highSol.toFixed(2)} sol)</span>` : '';
+
+                        row.innerHTML = `
+                            <td class="token-name"><div style="display:flex;flex-direction:column;align-items:flex-start;gap:3px;"><a href="${token.link}" target="_blank" class="token-link" style="color:inherit;text-decoration:none;">${token.name}</a><span class="source-badge ${srcClass}">${srcLabel}</span></div></td>
+                            <td class="mcap">${formatCurrency(token.capturedMcap)}${capSolDisplay}</td>
+                            <td class="mcap">${token.liquidity || 'N/A'}</td>
+                            <td class="mcap"><div class="mcap-cell">${formatCurrency(token.currentMcap)}${curSolDisplay} ${mcapChangeHtml}</div></td>
+                            <td class="mcap"><div class="mcap-cell">${formatCurrency(token.highestMcap)}${highSolDisplay} ${highestChangeHtml}</div></td>
+                            <td class="mcap">${slHtml}</td>
+                            <td>${statusHtml}</td>
+                            <td class="token-name" style="font-size: 13px; color: ${token.play !== 'No' ? '#4CAF50' : '#888'};">
+                                ${token.play}${token.play !== 'No' && token.reentryAlerted === 1 ? `<br><span style="font-size:10px; color:#ff9800; font-weight:600;">(Re-entry Triggered)</span>` : ''}${token.play !== 'No' && token.reentryAlerted === 2 ? `<br><span style="font-size:10px; color:#f44336; font-weight:700;">(Sniper Triggered)</span>` : ''}
+                            </td>
+                            <td class="narrative">${narrativeText}</td>
+                            <td><a href="${token.link}" target="_blank" class="token-link">View</a></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                }
+
+                loading.style.display = 'none';
+                table.style.display = 'table';
+                initialLoad = false;
+
+            } catch (error) {
+                if (initialLoad) loading.style.display = 'none';
+                errorContainer.innerHTML = `<div class="error">Error loading tokens: ${error.message}</div>`;
+            }
+        }
+
+        let isFrozen = false;
+        let pnlMode = 'closed'; // default: closed trades only
+
+        function togglePnlMode() {
+            pnlMode = (pnlMode === 'closed') ? 'all' : 'closed';
+            const toggle = document.getElementById('pnl-toggle');
+            if (pnlMode === 'all') {
+                toggle.textContent = 'ALL';
+                toggle.style.background = 'rgba(255,152,0,0.15)';
+                toggle.style.color = '#ff9800';
+                toggle.style.borderColor = 'rgba(255,152,0,0.35)';
+            } else {
+                toggle.textContent = 'CLOSED';
+                toggle.style.background = 'rgba(76,175,80,0.15)';
+                toggle.style.color = '#4CAF50';
+                toggle.style.borderColor = 'rgba(76,175,80,0.35)';
+            }
+            loadTokens(); // refresh immediately
+        }
+
+        function toggleFreeze() {
+            isFrozen = !isFrozen;
+            const btn = document.getElementById('freeze-btn');
+            if (isFrozen) {
+                btn.classList.add('active');
+                btn.textContent = '🔓 Unfreeze';
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '❄️ Freeze';
+            }
+        }
+
+        // Load tokens on page load
+        loadTokens();
+
+        // Auto-refresh every 500ms (skipped when frozen)
+        setInterval(() => {
+            if (!isFrozen) loadTokens();
+        }, 500);
+    </script>
+</body>
+</html>
+
