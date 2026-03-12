@@ -367,6 +367,59 @@
             background: rgba(255, 152, 0, 0.12);
             border: 1px solid rgba(255, 152, 0, 0.35);
         }
+
+        .search-bar-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 180px;
+            max-width: 380px;
+        }
+
+        .search-bar-wrap svg {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 14px;
+            height: 14px;
+            color: #888;
+            pointer-events: none;
+        }
+
+        #token-search {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(76,175,80,0.3);
+            border-radius: 6px;
+            color: #e0e0e0;
+            font-size: 13px;
+            padding: 7px 10px 7px 32px;
+            outline: none;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        #token-search::placeholder { color: #555; }
+
+        #token-search:focus {
+            border-color: rgba(76,175,80,0.7);
+            background: rgba(255,255,255,0.08);
+        }
+
+        #search-clear {
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #555;
+            cursor: pointer;
+            font-size: 14px;
+            padding: 0;
+            display: none;
+        }
+
+        #search-clear:hover { color: #e0e0e0; }
     </style>
 </head>
 <body>
@@ -421,9 +474,16 @@
         </div>
 
         <div class="btn-row">
-            <div style="display:flex; gap:10px; align-items:center;">
+            <div style="display:flex; gap:10px; align-items:center; flex:1;">
                 <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
-                <div id="monitor-status" style="font-size: 11px; color: #4CAF50; font-weight: bold;">● On-Chain Monitor Active</div>
+                <div id="monitor-status" style="font-size: 11px; color: #4CAF50; font-weight: bold; white-space:nowrap;">● On-Chain Monitor Active</div>
+                <div class="search-bar-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                    </svg>
+                    <input id="token-search" type="text" placeholder="Search by name, address or DexScreener URL…" autocomplete="off" oninput="applySearch()" />
+                    <button id="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
+                </div>
             </div>
             <button class="freeze-btn" id="freeze-btn" onclick="toggleFreeze()">❄️ Freeze</button>
         </div>
@@ -742,6 +802,44 @@
 
         let isFrozen = false;
         let pnlMode = 'closed'; // default: closed trades only
+        let searchQuery = '';
+
+        function applySearch() {
+            const input = document.getElementById('token-search');
+            const clearBtn = document.getElementById('search-clear');
+            searchQuery = (input.value || '').trim().toLowerCase();
+            clearBtn.style.display = searchQuery ? 'block' : 'none';
+
+            // Extract raw address from DexScreener URL if pasted
+            const urlMatch = searchQuery.match(/\/solana\/([a-z0-9]+)/i);
+            const effectiveQuery = urlMatch ? urlMatch[1].toLowerCase() : searchQuery;
+
+            const tbody = document.getElementById('tokens-body');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            let visible = 0;
+            rows.forEach(row => {
+                if (row.classList.contains('date-separator')) {
+                    // hide date separators during search, show when clear
+                    row.style.display = effectiveQuery ? 'none' : '';
+                    return;
+                }
+                if (!effectiveQuery) {
+                    row.style.display = '';
+                    return;
+                }
+                const text = row.textContent.toLowerCase();
+                const links = Array.from(row.querySelectorAll('a')).map(a => (a.href || '').toLowerCase());
+                const matchesText = text.includes(effectiveQuery);
+                const matchesLink = links.some(l => l.includes(effectiveQuery));
+                row.style.display = (matchesText || matchesLink) ? '' : 'none';
+                if (matchesText || matchesLink) visible++;
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById('token-search').value = '';
+            applySearch();
+        }
 
         function togglePnlMode() {
             pnlMode = (pnlMode === 'closed') ? 'all' : 'closed';
