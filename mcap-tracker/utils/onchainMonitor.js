@@ -25,6 +25,7 @@ const crypto = require('crypto');
 const fs     = require('fs');
 const path   = require('path');
 const { calculateExitConditions } = require('./tradeLogic');
+const { Connection, PublicKey } = require('@solana/web3.js');
 
 // --- Reentry Zone Definitions (configurable via .env) ---
 const PLAY_1_REENTRY_RANGE = [
@@ -326,6 +327,43 @@ async function startMonitor(db) {
     let loopCount  = 0;
     let cycleMs    = 0;        // rolling cycle time for diagnostics
 
+    // ── WebSocket Monitoring ──
+    const heliusUrl = RPC_ENDPOINTS[0];
+    const connection = new Connection(heliusUrl, { commitment: 'processed', wsEndpoint: heliusUrl.replace('https', 'wss') });
+    const subscriptions = new Map(); // tokenAddress -> [subIds]
+    const pendingRefreshes = new Set(); // set of token addresses needing immediate check
+
+    async function subscribeToToken(token) {
+        if (token.status !== 'active' || subscriptions.has(token.address)) return;
+
+        console.log(`📡 [WS] Subscribing to ${token.name} (${token.pair_address || token.address})`);
+        const subs = [];
+        
+        try {
+            const mainAddr = new PublicKey(token.pair_address || token.address);
+            
+            // 1. Monitor the pair/bonding-curve account itself
+            const s1 = connection.onAccountChange(mainAddr, () => {
+                pendingRefreshes.add(token.address);
+            }, 'processed');
+            subs.push(s1);
+
+            // 2. We'll also monitor the vaults once we've decoded them in the first loop
+            subscriptions.set(token.address, subs);
+        } catch (e) {
+            console.error(`[WS] Subscription error for ${token.name}:`, e.message);
+        }
+    }
+
+    function cleanupSubscriptions(tokenAddress) {
+        const subs = subscriptions.get(tokenAddress);
+        if (subs) {
+            subs.forEach(id => connection.removeAccountChangeListener(id));
+            subscriptions.delete(tokenAddress);
+            console.log(`📡 [WS] Cleaned up subscriptions for ${tokenAddress}`);
+        }
+    }
+
     while (true) {
         const cycleStart = Date.now();
         try {
@@ -340,9 +378,15 @@ async function startMonitor(db) {
                  FROM tokens WHERE status IN ('active', 'stopped')`, []);
 
             if (tokens.length === 0) {
-                await new Promise(r => setTimeout(r, 3000));
+                await new Promise(r => setTimeout(r, 5000));
                 continue;
             }
+
+            // Sync subscriptions
+            tokens.forEach(t => {
+                if (t.status === 'active') subscribeToToken(t);
+                else if (t.status === 'stopped') cleanupSubscriptions(t.address);
+            });
 
             // ── 2. Heartbeat ────────────────────────────────────────────────
             if (loopCount % 20 === 0 && ENABLE_HEARTBEAT_LOGGING) {
@@ -400,6 +444,21 @@ async function startMonitor(db) {
             let   vaultBalances  = [];
             if (vaultAddresses.length > 0) {
                 vaultBalances = await rpc.getParsedTokenAccounts(vaultAddresses);
+                
+                // Add vault subscriptions if they don't exist yet
+                tokens.forEach((t, i) => {
+                    const layout = tokenLayouts[i];
+                    if (layout?.type === 'amm' && subscriptions.has(t.address)) {
+                        const subs = subscriptions.get(t.address);
+                        if (subs.length < 3) { // Haven't added vaults yet
+                            const { vault0, vault1 } = layout.layout;
+                            try {
+                                subs.push(connection.onAccountChange(new PublicKey(vault0), () => pendingRefreshes.add(t.address), 'processed'));
+                                subs.push(connection.onAccountChange(new PublicKey(vault1), () => pendingRefreshes.add(t.address), 'processed'));
+                            } catch (_) {}
+                        }
+                    }
+                });
             }
 
             // ── 7. Process all tokens IN PARALLEL ───────────────────────────
@@ -574,9 +633,16 @@ async function startMonitor(db) {
         }
 
         cycleMs = Date.now() - cycleStart;
-        // Aim for a 500ms cycle; subtract processing time already spent
-        const sleep = Math.max(0, 500 - cycleMs);
-        await new Promise(r => setTimeout(r, sleep));
+        
+        // Dynamic sleep: Wait up to 3 seconds, but wake up immediately if a WebSocket event fires
+        const waitStart = Date.now();
+        while (Date.now() - waitStart < 3000) {
+            if (pendingRefreshes.size > 0) break;
+            await new Promise(r => setTimeout(r, 100));
+        }
+        
+        // Reset flags for the next run
+        pendingRefreshes.clear();
     }
 }
 
