@@ -612,7 +612,7 @@ async function startMonitor(db) {
                              u.postExitHighest, u.postExitLowest,
                              u.postExitHighestSol, u.postExitLowestSol,
                              capturedSol, totalSupply, reason, dbNow, token.id]);
-                    } else {
+                    } else if (token.status === 'active') {
                         return dbRun(db,
                             `UPDATE tokens SET
                                 current_mcap = ?, current_mcap_sol = ?,
@@ -626,6 +626,17 @@ async function startMonitor(db) {
                              u.postExitHighest, u.postExitLowest,
                              u.postExitHighestSol, u.postExitLowestSol,
                              capturedSol, totalSupply, newTrailSol, dbNow, token.id]);
+                    } else {
+                        // Token already stopped - ONLY update post-exit metrics
+                        return dbRun(db,
+                            `UPDATE tokens SET
+                                post_exit_highest_mcap = ?, post_exit_lowest_mcap = ?,
+                                post_exit_highest_mcap_sol = ?, post_exit_lowest_mcap_sol = ?,
+                                updated_at = ?
+                             WHERE id = ?`,
+                            [u.postExitHighest, u.postExitLowest,
+                             u.postExitHighestSol, u.postExitLowestSol,
+                             dbNow, token.id]);
                     }
                 });
 

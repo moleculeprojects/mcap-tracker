@@ -208,6 +208,19 @@
                 flex: 1 1 40%;
                 min-width: 120px;
             }
+
+            .btn-row {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .btn-row > div {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .search-bar-wrap {
+                min-width: 100% !important;
+            }
         }
 
         @media (max-width: 480px) {
@@ -287,6 +300,11 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
         }
 
         .refresh-btn:hover {
@@ -308,6 +326,11 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
         }
 
         .freeze-btn:hover {
@@ -372,7 +395,6 @@
             position: relative;
             flex: 1;
             min-width: 180px;
-            max-width: 380px;
         }
 
         .search-bar-wrap svg {
@@ -388,11 +410,12 @@
 
         #token-search {
             width: 100%;
+            height: 38px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(76,175,80,0.3);
             border-radius: 6px;
             color: #e0e0e0;
-            font-size: 13px;
+            font-size: 14px;
             padding: 7px 10px 7px 32px;
             outline: none;
             transition: border-color 0.2s, background 0.2s;
@@ -474,18 +497,19 @@
         </div>
 
         <div class="btn-row">
-            <div style="display:flex; gap:10px; align-items:center; flex:1;">
-                <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
-                <div id="monitor-status" style="font-size: 11px; color: #4CAF50; font-weight: bold; white-space:nowrap;">● On-Chain Monitor Active</div>
-                <div class="search-bar-wrap">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                    </svg>
-                    <input id="token-search" type="text" placeholder="Search by name, address or DexScreener URL…" autocomplete="off" oninput="applySearch()" />
-                    <button id="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
-                </div>
+            <div class="search-bar-wrap">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                </svg>
+                <input id="token-search" type="text" placeholder="Search by name, address or DexScreener URL…" autocomplete="off" oninput="applySearch()" />
+                <button id="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
             </div>
-            <button class="freeze-btn" id="freeze-btn" onclick="toggleFreeze()">❄️ Freeze</button>
+            
+            <div style="display:flex; gap:10px; align-items:center;">
+                <div id="monitor-status" style="font-size: 11px; color: #4CAF50; font-weight: bold; white-space:nowrap;">● On-Chain Monitor Active</div>
+                <button class="refresh-btn" onclick="loadTokens()">🔄 Refresh</button>
+                <button class="freeze-btn" id="freeze-btn" onclick="toggleFreeze()">❄️ Freeze</button>
+            </div>
         </div>
 
         <div class="tokens-table">
@@ -717,10 +741,12 @@
                             const postExitLow = token.postExitLowestMcap ? formatCurrency(token.postExitLowestMcap) : '';
 
                             statusHtml = `
-                                <div style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                                    <sup style="font-size: 9px; color: #4CAF50; font-weight: bold; opacity: 0.8;">${postExitHigh}</sup>
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 1px;">
+                                    <div style="display: flex; gap: 6px; margin-bottom: 2px;">
+                                        <sup style="font-size: 9px; color: #4CAF50; font-weight: bold; opacity: 0.9;">H: ${postExitHigh}</sup>
+                                        <sup style="font-size: 9px; color: #f44336; font-weight: bold; opacity: 0.9;">L: ${postExitLow}</sup>
+                                    </div>
                                     <span class="dumped-badge ${badgeClass}" style="font-size:10px;">${exitText}</span>
-                                    <sub style="font-size: 9px; color: #f44336; font-weight: bold; opacity: 0.8;">${postExitLow}</sub>
                                 </div>
                             `;
                         } else {
@@ -792,6 +818,7 @@
 
                 loading.style.display = 'none';
                 table.style.display = 'table';
+                applySearch(); // Maintain filtering during auto-refresh
                 initialLoad = false;
 
             } catch (error) {
