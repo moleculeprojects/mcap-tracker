@@ -507,8 +507,14 @@ async function startMonitor(db) {
 
                 // -- SOL-based values --
                 const capturedSol = token.captured_mcap_sol || (token.captured_mcap / solUsd);
-                const peakSol     = Math.max(token.highest_mcap_sol || 0, mcapSol);
-                const peakUsd     = Math.max(token.highest_mcap    || 0, mcapUsd);
+                
+                // Only update the main "Highest MCAP" while the trade is active
+                let peakSol = token.highest_mcap_sol || 0;
+                let peakUsd = token.highest_mcap || 0;
+                if (token.status === 'active') {
+                    peakSol = Math.max(peakSol, mcapSol);
+                    peakUsd = Math.max(peakUsd, mcapUsd);
+                }
 
                 // -- Reentry zone check --
                 const tokenPlay = token.play || 'No';
