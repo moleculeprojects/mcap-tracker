@@ -597,11 +597,11 @@
                     const pnlTokens = (pnlMode === 'closed') ? closedTrades : tokens;
                     const changes = pnlTokens.map(t => t.percentChange).filter(c => c !== null);
                     if (changes.length > 0) {
-                        const avgNum = changes.reduce((a, b) => a + b, 0) / changes.length;
-                        const avgChange = (avgNum > 0 ? '+' : '') + avgNum.toFixed(2) + '%';
-                        const avgEl = document.getElementById('avg-change');
-                        avgEl.textContent = avgChange;
-                        avgEl.style.color = avgNum >= 0 ? '#4CAF50' : '#f44336';
+                        const totalNum = changes.reduce((a, b) => a + b, 0);
+                        const totalChange = (totalNum > 0 ? '+' : '') + totalNum.toFixed(2) + '%';
+                        const pnlEl = document.getElementById('avg-change');
+                        pnlEl.textContent = totalChange;
+                        pnlEl.style.color = totalNum >= 0 ? '#4CAF50' : '#f44336';
                     } else {
                         document.getElementById('avg-change').textContent = 'N/A';
                         document.getElementById('avg-change').style.color = '#888';
@@ -734,18 +734,16 @@
 
                         // SL Display
                         let slHtml = '---';
-                        const supply = token.totalSupply || 1;
-                        if (!isStopped) {
-                            if (token.trailingSlSol && token.trailingSlSol > 0) {
-                                const slUsd = token.trailingSlSol * (token.solPrice || 0);
-                                slHtml = `<span style="color: #ff9800;">${formatCurrency(slUsd)} <br/><span style="font-size:0.85em">(${token.trailingSlSol.toFixed(2)} sol)</span></span>`;
-                            } else {
-                                // Default SL (-25% in SOL)
-                                const capSol = token.capturedMcapSol || (token.capturedMcap / (token.solPrice || 1));
-                                const baseSLSol = capSol * 0.75;
-                                const baseSLUsd = baseSLSol * (token.solPrice || 0);
-                                slHtml = `<span style="color: #888;">${formatCurrency(baseSLUsd)} <br/><span style="font-size:0.85em">(${baseSLSol.toFixed(2)} sol)</span></span>`;
-                            }
+                        if (token.trailingSlSol && token.trailingSlSol > 0) {
+                            const slUsd = token.trailingSlSol * (token.solPrice || 0);
+                            const color = isStopped ? '#666' : '#ff9800';
+                            slHtml = `<span style="color: ${color};">${formatCurrency(slUsd)} <br/><span style="font-size:0.85em">(${token.trailingSlSol.toFixed(2)} sol)</span></span>`;
+                        } else if (!isStopped) {
+                            // Default SL (-25% in SOL)
+                            const capSol = token.capturedMcapSol || (token.capturedMcap / (token.solPrice || 1));
+                            const baseSLSol = capSol * 0.75;
+                            const baseSLUsd = baseSLSol * (token.solPrice || 0);
+                            slHtml = `<span style="color: #888;">${formatCurrency(baseSLUsd)} <br/><span style="font-size:0.85em">(${baseSLSol.toFixed(2)} sol)</span></span>`;
                         }
 
                         // Calculate current vs captured change

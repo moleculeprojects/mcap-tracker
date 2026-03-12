@@ -606,12 +606,12 @@ async function startMonitor(db) {
                                 post_exit_highest_mcap = ?, post_exit_lowest_mcap = ?,
                                 post_exit_highest_mcap_sol = ?, post_exit_lowest_mcap_sol = ?,
                                 captured_mcap_sol = ?, total_supply = ?,
-                                status = 'stopped', exit_reason = ?, updated_at = ?
+                                trailing_sl_sol = ?, status = 'stopped', exit_reason = ?, updated_at = ?
                              WHERE id = ?`,
                             [mcapUsd, mcapSol, peakUsd, peakSol,
                              u.postExitHighest, u.postExitLowest,
                              u.postExitHighestSol, u.postExitLowestSol,
-                             capturedSol, totalSupply, reason, dbNow, token.id]);
+                             capturedSol, totalSupply, newTrailSol, reason, dbNow, token.id]);
                     } else if (token.status === 'active') {
                         return dbRun(db,
                             `UPDATE tokens SET
