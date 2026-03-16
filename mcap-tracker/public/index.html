@@ -445,7 +445,7 @@
             </div>
             <div class="stat-card">
                 <div class="stat-label" style="display:flex; align-items:center; justify-content:space-between;">
-                    <span>Net Profit/Loss</span>
+                    <span id="pnl-label">Avg. Profit/Trade</span>
                     <span id="pnl-toggle" onclick="togglePnlMode()" style="
                         font-size: 10px; font-weight: 700; cursor: pointer;
                         border-radius: 20px; padding: 2px 8px; letter-spacing: 0.5px;
@@ -596,12 +596,18 @@
                     // Net P&L — respect pnlMode (default: 'closed')
                     const pnlTokens = (pnlMode === 'closed') ? closedTrades : tokens;
                     const changes = pnlTokens.map(t => t.percentChange).filter(c => c !== null);
+                    
                     if (changes.length > 0) {
-                        const totalNum = changes.reduce((a, b) => a + b, 0);
-                        const totalChange = (totalNum > 0 ? '+' : '') + totalNum.toFixed(2) + '%';
+                        const count = changes.length;
+                        const avgChange = changes.reduce((a, b) => a + b, 0) / count;
+                        const totalUnits = changes.reduce((a, b) => a + (b / 100), 0);
+                        
+                        const avgChangeStr = (avgChange > 0 ? '+' : '') + avgChange.toFixed(2) + '%';
+                        const unitsStr = (totalUnits > 0 ? '+' : '') + totalUnits.toFixed(2) + 'U';
+                        
                         const pnlEl = document.getElementById('avg-change');
-                        pnlEl.textContent = totalChange;
-                        pnlEl.style.color = totalNum >= 0 ? '#4CAF50' : '#f44336';
+                        pnlEl.innerHTML = `${avgChangeStr} <span style="font-size:13px; font-weight:500; color:#888; margin-left:4px;">(${unitsStr})</span>`;
+                        pnlEl.style.color = avgChange >= 0 ? '#4CAF50' : '#f44336';
                     } else {
                         document.getElementById('avg-change').textContent = 'N/A';
                         document.getElementById('avg-change').style.color = '#888';
@@ -847,16 +853,20 @@
         function togglePnlMode() {
             pnlMode = (pnlMode === 'closed') ? 'all' : 'closed';
             const toggle = document.getElementById('pnl-toggle');
+            const label = document.getElementById('pnl-label');
+            
             if (pnlMode === 'all') {
                 toggle.textContent = 'ALL';
                 toggle.style.background = 'rgba(255,152,0,0.15)';
                 toggle.style.color = '#ff9800';
                 toggle.style.borderColor = 'rgba(255,152,0,0.35)';
+                label.textContent = 'Avg. Profit (All)';
             } else {
                 toggle.textContent = 'CLOSED';
                 toggle.style.background = 'rgba(76,175,80,0.15)';
                 toggle.style.color = '#4CAF50';
                 toggle.style.borderColor = 'rgba(76,175,80,0.35)';
+                label.textContent = 'Avg. Profit (Closed)';
             }
             loadTokens(); // refresh immediately
         }
